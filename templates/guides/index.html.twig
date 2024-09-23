@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Průvodci - CK VŠPJ{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main {
+            padding-top: 76px;
+        }
+
+        .team-member {
+            margin-bottom: 30px;
+        }
+        .team-member img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+        .team-member h4 {
+            margin-top: 15px;
+        }
+        .team-member p {
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block main %}
+    <!-- Hero Section with Background Image and Text -->
+    <section class="hero text-white d-flex justify-content-center py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+        <div class="hero-content">
+            <h1 class="display-4 text-center">Průvodci</h1>
+            <div class="lead">
+                <span>Rádi bychom vám představili průvodce, kteří s námi pravidelně spolupracují.</span>
+                <ul>
+                    <li>naši průvodci z řad studentů i profesionálů disponují průkazy průvodců 1. či 2. stupně</li>
+                    <li>nabízíme průvodcování českých i zahraničních skupin po Jihlavě a okolí</li>
+                    <li>doprovod hostů konferencí a seminářů v AJ</li>
+                    <li>možnost spolupráce s ostatními cestovními kancelářemi</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="container">
+        <section class="our-team py-5 bg-light">
+            <div class="container">
+                <div class="row text-center">
+                    {% for guide in guides %}
+                        <div class="col-md-4 mb-4">
+                            <div class="team-member">
+                                <img src="{{ asset('uploads/pruvodci/' ~ guide.image) }}" class="img-fluid rounded-circle mb-3" alt="{{ guide.name }}">
+                                <h3>{{ guide.name }}</h3>
+                                {% if guide.employment %}
+                                    <p><b>Zaměstnání: </b>{{ guide.employment }}</p>
+                                {% endif %}
+                                {% if guide.language %}
+                                    <p><b>Jazyk: </b>{{ guide.language }}</p>
+                                {% endif %}
+                                {% if guide.certificate %}
+                                    <p><b>Certifikát: </b>{{ guide.certificate }}</p>
+                                {% endif %}
+                                {% if guide.experience %}
+                                    <p><b>Zkušenosti: </b>{{ guide.experience }}</p>
+                                {% endif %}
+                                {% if guide.about %}
+                                    <p><b>Něco o mně: </b>{{ guide.about }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

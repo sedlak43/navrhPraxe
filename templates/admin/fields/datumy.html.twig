@@ -1,0 +1,6 @@
+# templates/admin/fields/datumy.html.twig #}
+<ul>
+    {% for datum in field.value %}
+        <li>{{ datum.datum|date('d.m.Y') }}</li>
+    {% endfor %}
+</ul>

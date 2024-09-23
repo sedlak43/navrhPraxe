@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fotogalerie - CK VŠPJ{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main {
+            padding-top: 76px;
+        }
+
+        /* Masonry-style gallery */
+        .gallery-container {
+            column-count: 4; /* Number of columns in the masonry layout */
+            column-gap: 15px; /* Spacing between columns */
+            padding: 1rem;
+        }
+
+        .gallery-item {
+            break-inside: avoid; /* Prevent images from breaking across columns */
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%; /* Make the image take the full width of its container */
+            height: auto; /* Maintain the natural aspect ratio */
+            transition: transform 0.3s ease-in-out;
+            display: block;
+        }
+
+        /* Hover effect: slightly zooms in the image */
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .gallery-container {
+                column-count: 3; /* Reduce columns on medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                column-count: 2; /* Reduce columns on small screens */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery-container {
+                column-count: 1; /* Single column layout on very small screens */
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <section class="hero text-white text-center py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+        <div class="container">
+            <h1 class="display-4">Fotogalerie</h1>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="gallery-container">
+            {% for photo in photos %}
+                <div class="gallery-item">
+                    <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

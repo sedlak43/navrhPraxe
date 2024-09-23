@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zájezdy - CK VŠPJ{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main {
+            padding-top: 76px;
+        }
+
+        /* Make all cards have the same height */
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-body {
+            flex-grow: 1;
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 200px; /* Adjust image height as needed */
+        }
+
+        /* Form group styling */
+        .form-group {
+            flex: 1; /* Allow form groups to grow */
+            min-width: 150px; /* Minimum width of form groups */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ensure form controls have a fixed width */
+        .form-group select,
+        .form-group input {
+            width: 220px; /* Fixed width for all controls */
+        }
+
+    </style>
+{% endblock %}
+
+{% block main %}
+    <!-- Hero Section with Background Image and Text -->
+    <section class="hero py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+        <div class="hero-content">
+            <h1 class="display-4">Zájezdy</h1>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+
+        <div class="hero-form-container">
+            <form method="get" action="{{ path('zajezdy_list') }}" class="filter-form" style="display: flex; flex-wrap: wrap; gap: 1rem; width: 100%;" >
+                <div class="form-group">
+                    <select id="destinace" name="destinace" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_destinace is empty %}selected{% endif %}>Destinace</option>
+                        {% for destinace in destinaces %}
+                            <option value="{{ destinace }}" {% if selected_destinace == destinace %}selected{% endif %}>
+                                {{ destinace }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="doprava" name="doprava" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_doprava is empty %}selected{% endif %}>Doprava</option>
+                        {% for doprava in dopravas %}
+                            <option value="{{ doprava }}" {% if selected_doprava == doprava %}selected{% endif %}>
+                                {{ doprava }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="typ" name="typ" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_typ is empty %}selected{% endif %}>Typy</option>
+                        {% for type in types %}
+                            <option value="{{ type }}" {% if selected_typ == type %}selected{% endif %}>
+                                {{ type }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="form-group" id="datePickerContainer">
+                    <input type="month" class="form-control" id="datePicker" name="date" aria-label="Datum" value="{{ selected_date }}" onchange="this.form.submit()">
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="album py-5 bg-body-tertiary">
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            {% for zajezd in zajezdy %}
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <img src="{{ asset('uploads/zajezdy/' ~ zajezd.image) }}" class="card-img-top" alt="Travel Image">
+
+                                        <div class="card-body" >
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <h4 class="text-left">{{ zajezd.nazev }}</h4>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <h5>
+                                                        {% if zajezd.typ == 'Pobyt' %}
+                                                            <h6>Od</h6>
+                                                            <h5>{{ zajezd.formattedCena }} Kč</h5>
+                                                        {% else %}
+                                                            <h5>{{ zajezd.formattedCena }} Kč</h5>
+                                                            <h6><br></h6>
+                                                        {% endif %}
+                                                    </h5>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div>
+                                                <div class="mb-2">
+                                                    <i class="bi bi-calendar"></i>
+                                                    {% for datum in zajezd.datumy %}
+                                                        <span>{{ datum.datum|date('d.m.Y') }}</span>{% if not loop.last %}, {% endif %}
+                                                    {% else %}
+                                                        <span>Není k dispozici</span>
+                                                    {% endfor %}
+                                                </div>
+
+                                                <div class="mb-2">
+                                                    <i class="bi bi-bus-front"></i>
+                                                    <span>{{ zajezd.doprava }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <i class="bi bi-egg-fried"></i>
+                                                    <span>{{ zajezd.strava }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <i class="bi bi-tag"></i>
+                                                    <span>{{ zajezd.typ }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-center align-items-center mt-3">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ path('zajezd_show', {nazev: zajezd.nazev}) }}'">Více Zde</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

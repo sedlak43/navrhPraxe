@@ -1,0 +1,386 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zájezd - {{ zajezd.nazev }} - CK VŠPJ{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main {
+            padding-top: 38px;
+        }
+        .program-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .uniform-img {
+            width: 100%;
+            height: 250px; /* Set a fixed height */
+            object-fit: cover; /* Ensures the image covers the area, cropping if necessary */
+        }
+
+        .carousel-item img {
+            width: 100%; /* Make image full width */
+            max-height: 500px; /* Limit the height of the image */
+            object-fit: cover; /* Ensure the image covers the container without distortion */
+            object-position: center; /* Center the image within its container */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block main %}
+    <main>
+    <!-- Hero Section with Background Image and Text -->
+    <section class="hero py-5" style="background-image: url('{{ asset('uploads/zajezdy/' ~ zajezd.image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="hero-content">
+            <h1 class="display-4">{{ zajezd.nazev }}</h1>
+            <p class="lead" style="text-align: center">{{ zajezd.podnazev }}</p>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Left column: Description -->
+                <div class="col-md-8">
+                    <div>
+                        {% if zajezd.uvodniNadpis is not null and zajezd.uvodniPopisek is not null %}
+                            <h2>{{ zajezd.uvodniNadpis }}</h2>
+                            <p>{{ zajezd.uvodniPopisek|nl2br }}</p>
+                        {% else %}
+                            <h2>Žádný nadpis k zobrazení.</h2>
+                            <p>Žádný popisek k zobrazení.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Right column: Pricing and details -->
+                <div class="col-md-4">
+                    <!-- Combined container: Price, dates, length, transport, and food -->
+                    <div style="border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+
+                        <!-- Centered section: Price and dates -->
+                        <div class="text-center">
+                            <h2>Od {{ zajezd.cena | number_format(0, ',', ' ') }} Kč</h2>
+
+                            {% if zajezd.delka is defined and zajezd.delka is not empty and zajezd.delka > 0 and zajezd.datumy is not empty %}
+                                {% set firstDate = zajezd.datumy|first %}
+                                {% set endDate = firstDate|date_modify("+" ~ (zajezd.delka - 1) ~ " days") %}
+
+                                <!-- Show the first date -->
+                                <p>
+                                    {{ firstDate|date('d.m.Y') }} - {{ endDate|date('d.m.Y') }}
+                                    {% if zajezd.datumy|length > 1 %}
+                                        <!-- Small + icon to toggle additional dates -->
+                                        <a href="#" id="toggle-dates" style="font-size: 20px; text-decoration: none;">+</a>
+                                    {% endif %}
+                                </p>
+
+                                <!-- Hidden additional dates -->
+                                <div id="additional-dates" style="display: none;">
+                                    {% for date in zajezd.datumy|slice(1) %}
+                                        {% set startDate = date %}
+                                        {% set endDate = startDate|date_modify("+" ~ (zajezd.delka - 1) ~ " days") %}
+                                        <p style="margin-right: 12px;">
+                                            {{ startDate|date('d.m.Y') }} - {{ endDate|date('d.m.Y') }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>Žádné datumy k zobrazení</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Divider line -->
+                        <hr>
+
+                        <!-- Left-aligned section: Length, transport, and food -->
+                        <div style="text-align: left;">
+                            <p><strong>DÉLKA:</strong> {{ zajezd.delka }} dní</p>
+                            <p><strong>DOPRAVA:</strong> {{ zajezd.doprava }}</p>
+                            <p><strong>STRAVA:</strong> {{ zajezd.strava }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-4">
+        <div class="p-4 position-relative">
+            <a class="btn btn-lg position-absolute bottom-0 end-0 m-3" href="/galerie" style="z-index: 10; background-color: #f8f9fa; color: black; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border: 1px solid #f8f9fa;">Prohlídka galerie</a>
+
+            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    {% if zajezd.carouselImage1 %}
+                        <div class="carousel-item active">
+                            <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage1) }}" class="d-block w-100" alt="Slide 1">
+                        </div>
+                    {% endif %}
+                    {% if zajezd.carouselImage2 %}
+                        <div class="carousel-item">
+                            <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage2) }}" class="d-block w-100" alt="Slide 2">
+                        </div>
+                    {% endif %}
+                    {% if zajezd.carouselImage3 %}
+                        <div class="carousel-item">
+                            <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage3) }}" class="d-block w-100" alt="Slide 3">
+                        </div>
+                    {% endif %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Program Section -->
+    <section class="program py-5">
+        <div class="container">
+            <h1 class="text-center" style="margin-bottom: 20px">Program zájezdu</h1><br>
+            {% for programDne in zajezd.programDne %}
+                <div class="program-item">
+                    <h5>Den {{ programDne.cisloDne }}: {{ programDne.nazev }}</h5>
+                    <p>{{ programDne.popisek }}</p>
+                </div>
+            {% else %}
+                <p class="text-center">Žádné položky k zobrazení.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Price and zahrnujes/nezahrnujes Section -->
+    <section class="price-details py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- Cena zahrnuje -->
+                <div class="col-md-6 mb-4 d-flex flex-column align-items-center">
+                    <h2 class="text-center">Cena zahrnuje</h2>
+                    {% if zahrnujes is defined and zahrnujes|length > 0 %}
+                        <ul class="list-unstyled mt-4 text-start">
+                            {% for zahrnuje in zahrnujes %}
+                                <li class="mb-2" style="text-align: left; list-style-type: disc;">{{ zahrnuje.item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center">Žádné položky k zobrazení.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Cena nezahrnuje -->
+                <div class="col-md-6 mb-4 d-flex flex-column align-items-center">
+                    <h2 class="text-center">Cena nezahrnuje</h2>
+                    {% if nezahrnujes is defined and nezahrnujes|length > 0 %}
+                        <ul class="list-unstyled mt-4 text-start">
+                            {% for nezahrnuje in nezahrnujes %}
+                                <li class="mb-2" style="text-align: left; list-style-type: disc;">{{ nezahrnuje.item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center">Žádné položky k zobrazení.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accommodation Section -->
+    <section class="py-5">
+        <div class="container">
+            <h1 class="text-center" style="margin-bottom: 20px">Tipy</h1>
+            <div class="row">
+                {% for tip in zajezd.tipy %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ tip.nazev }}</h5>
+                                <p class="card-text">{{ tip.popisek }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-center">Žádné tipy k zobrazení.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container py-5" >
+            <h1 style="text-align: center; margin-bottom: 20px">Dostupné termíny</h1>
+            <div class="table-responsive" style="background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                <table class="table table-hover align-middle">
+                    <thead>
+                    <tr>
+                        <th>Termín</th>
+                        <th>Délka</th>
+                        <th>Doprava</th>
+                        <th>Strava</th>
+                        <th>Cena</th>
+                        <th></th> <!-- Empty for button -->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for date in zajezd.datumy %}
+                        {% set startDate = date %}
+                        {% set endDate = startDate|date_modify("+" ~ (zajezd.delka - 1) ~ " days") %}
+
+                        <!-- Mapping days to Czech -->
+                        {% set days_in_czech = {
+                            'Monday': 'Pondělí',
+                            'Tuesday': 'Úterý',
+                            'Wednesday': 'Středa',
+                            'Thursday': 'Čtvrtek',
+                            'Friday': 'Pátek',
+                            'Saturday': 'Sobota',
+                            'Sunday': 'Neděle'
+                        } %}
+
+                        <tr class="bg-light">
+                            <td>
+                                <strong>{{ startDate|date('d.m.') }} - {{ endDate|date('d.m.Y') }}</strong><br>
+                                <span class="text-muted">vybrat tento termín</span>
+                            </td>
+                            <td>
+                                {{ zajezd.delka }} nocí {{ days_in_czech[startDate|date('l')] }} - {{ days_in_czech[endDate|date('l')] }}
+                            </td>
+                            <td>
+                                {{ zajezd.doprava }} <i class="fas fa-plane"></i> <!-- Airplane icon -->
+                            </td>
+                            <td>
+                                {{ zajezd.strava }}
+                            </td>
+                            <td>
+                                <strong>od {{ zajezd.formattedCena }} Kč</strong><br>
+                                <span class="text-muted">za osobu</span>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal">Nezávazně objednat</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <p class="text-center">Žádné termíny k zobrazení.</p>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Structure -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Nezávazná objednávka</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form for reservation -->
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="osoby" class="form-label">Počet osob</label>
+                                <input type="number" class="form-control" id="osoby" placeholder="Zadejte počet osob">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cena" class="form-label">Cena</label>
+                                <input type="text" class="form-control" id="cena" value="{{ zajezd.cena }}" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jmeno" class="form-label">Jméno</label>
+                            <input type="text" class="form-control" id="jmeno" placeholder="Zadejte své jméno">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bydliste" class="form-label">Bydliště</label>
+                            <input type="text" class="form-control" id="bydliste" placeholder="Zadejte své bydliště">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tel" class="form-label">Telefon</label>
+                            <input type="tel" class="form-control" id="tel" placeholder="Zadejte svůj telefon">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="email" placeholder="Zadejte svůj e-mail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="narozeni" class="form-label">Datum narození</label>
+                            <input type="date" class="form-control" id="narozeni" placeholder="Zadejte datum narození">
+                        </div>
+                        <div class="mb-3">
+                            <label for="poznamka" class="form-label">Poznámka</label>
+                            <textarea class="form-control" id="poznamka" rows="3" placeholder="Máte nějaké speciální požadavky?"></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="pojisteni">
+                            <label class="form-check-label" for="pojisteni">
+                                Chci cestovní pojištění
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                    <button type="submit" class="btn btn-primary">Odeslat objednávku</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="continer" style="text-align: center; margin-bottom: 20px; color: #6c757d;">
+            <p>{{ zajezd.poznamky|nl2br }}</p>
+        </div>
+    </section>
+
+    <!-- JavaScript for toggling additional dates -->
+    <script>
+        document.getElementById('toggle-dates').addEventListener('click', function(event) {
+            event.preventDefault();
+            const additionalDates = document.getElementById('additional-dates');
+            if (additionalDates.style.display === 'none') {
+                additionalDates.style.display = 'block';
+                this.textContent = '-';  // Change + to - when expanded
+            } else {
+                additionalDates.style.display = 'none';
+                this.textContent = '+';  // Change back to + when collapsed
+            }
+        });
+    </script>
+{% endblock %}
