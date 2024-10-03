@@ -11,6 +11,18 @@
 
     {% block stylesheets %}
         <style>
+            html, body {
+                height: 100%;
+                background-color: #f8f9fa;
+            }
+
+            /* Wrapper for the entire page */
+            .wrapper {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh; /* Full height of the viewport */
+            }
+
             hr {
                 padding: 12px;
             }
@@ -117,6 +129,7 @@
                 position: relative; /* Positions the footer relative to the page */
                 bottom: 0; /* Positions the footer at the bottom of the page */
                 width: 100%; /* Makes the footer span the full width of the page */
+                flex-shrink: 0; /* Prevents the footer from shrinking */
             }
 
             /* Footer logo image size */
@@ -154,7 +167,7 @@
                 padding-top: 100px; /* Adds space at the top for the fixed navbar */
                 background-color: #f8f9fa; /* Background color for the main content area */
                 color: black; /* Text color for the main content */
-                min-height: 100vh; /* Ensures the main content takes up at least the full viewport height */
+                flex-grow: 1;
             }
 
             /* About content image styling */
@@ -191,13 +204,14 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
             }
 
             /* Centering hero content */
             .hero-content {
                 text-align: center; /* Center the entire content horizontally */
                 margin-bottom: 2rem; /* Space below the hero text */
+                color: black;
             }
 
             .hero-content h1 {
@@ -240,7 +254,7 @@
         <nav class="navbar navbar-expand-lg">
             <!-- Logo -->
             <a class="navbar-brand" href="https://www.vspj.cz/cs/">
-                <img src="{{ asset('logo/logoB.png') }}"  alt="Logo">
+                <img src="{{ asset('logo/logoBc.png') }}"  alt="Logo">
                 <img src="{{ asset('logo/VŠPJblack.png') }}" alt="VŠPJ Logo" style="margin-left: 28px;">
             </a>
 
@@ -285,7 +299,7 @@
         </nav>
     </header>
 
-    <main>
+    <main class="wrapper">
         {% block main %}{% endblock %}
     </main>
 
@@ -300,7 +314,7 @@
 
     <!-- Company Name -->
     <div class="footer-name">
-        &copy; <a>Cestovní Kancelář VŠPJ</a><br>
+        &copy; <a> 2021 - OIKT - VŠPJ</a><br>
         <a href="https://www.vspj.cz/" target="_blank" style="text-decoration: none; color: inherit;">www.vspj.cz</a>
     </div>
 

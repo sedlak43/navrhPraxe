@@ -16,15 +16,15 @@ class Domovskastranka
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Zajezdy::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Zajezdy::class, cascade: ["remove"])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Zajezdy $vystavenyZajezd1 = null;
 
-    #[ORM\ManyToOne(targetEntity: Zajezdy::class)]
+    #[ORM\ManyToOne(targetEntity: Zajezdy::class, cascade: ["remove"])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Zajezdy $vystavenyZajezd2 = null;
 
-    #[ORM\ManyToOne(targetEntity: Zajezdy::class)]
+    #[ORM\ManyToOne(targetEntity: Zajezdy::class, cascade: ["remove"])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Zajezdy $vystavenyZajezd3 = null;
 
@@ -38,9 +38,9 @@ class Domovskastranka
         return $this->vystavenyZajezd1;
     }
 
-    public function setVystavenyZajezd1(Zajezdy $vystavenyZajezd1): self
+    public function setVystavenyZajezd1(?Zajezdy $vystavenyZajezd1): self
     {
-        $this->vystavenyZajezd = $vystavenyZajezd1;
+        $this->vystavenyZajez1 = $vystavenyZajezd1;
         return $this;
     }
 

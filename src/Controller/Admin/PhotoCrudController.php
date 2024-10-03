@@ -5,9 +5,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Photo;
+use App\Entity\Tag;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PhotoCrudController extends AbstractCrudController
 {
@@ -22,13 +26,22 @@ class PhotoCrudController extends AbstractCrudController
             TextField::new('popisek', 'Popisek')
                 ->setRequired(false),
             ImageField::new('image', 'Image')
-                ->setUploadDir('public/uploads/photos')  // Directory where files will be uploaded
-                ->setBasePath('uploads/photos')          // Base path to access the images from the frontend
-                ->setUploadedFileNamePattern('[randomhash].[extension]') // File name pattern (to avoid conflicts)
-                ->setRequired(true) // Make image upload optional if necessary
+                ->setUploadDir('public/uploads/photos')
+                ->setBasePath('uploads/photos')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),
+            // Allow selecting existing tags and adding new ones
+            AssociationField::new('tags', 'Tags')
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                    'multiple' => true, // Allows multiple tags to be selected
+                    'attr' => ['data-widget' => 'select2'], // Optional: Integrate with select2 for better UI (requires select2 JS)
+                ])
+                ->setRequired(false), // Make form simpler for tags
         ];
     }
 }
+
 
 
 

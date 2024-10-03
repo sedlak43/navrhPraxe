@@ -62,15 +62,171 @@
             object-fit: cover; /* Ensures the image covers the entire circle */
         }
 
+        .outlined-heading {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white; /* Barva textu */
+            text-shadow:
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px  1px 0 #000,
+                    1px  1px 0 #000; /* Čtyři stíny kolem textu */
+        }
+
+        .carousel-item img {
+            width: 100%; /* Make image full width */
+            max-height: 500px; /* Limit the height of the image */
+            object-fit: cover; /* Ensure the image covers the container without distortion */
+            object-position: center; /* Center the image within its container */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Adjust featurette styling */
+        .featurette {
+            display: flex;
+            flex-wrap: wrap; /* Ensure wrapping for better layout on smaller screens */
+            align-items: center; /* Center-align the content */
+            margin-bottom: 30px; /* Add space between featurettes */
+        }
+
+        /* Ensure images and text are well aligned */
+        .featurette img {
+            width: 100%; /* Full width on smaller screens */
+            max-width: 480px; /* Maximum width for larger screens */
+            height: auto;
+            margin: auto; /* Center the image */
+            border-radius: 4px;
+        }
+
+        /* Ensure the text fits next to the image */
+        .featurette-heading {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            line-height: 1.2;
+        }
+
+        /* Container for the columns */
+        .col-lg-4.text-center {
+            display: flex; /* Enables flex layout */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center; /* Centers content vertically */
+            align-items: center; /* Centers content horizontally */
+            flex-basis: 33.333%; /* Each item takes up 1/3 of the row */
+        }
+
+        /* Parent container holding all the items */
+        .row {
+            display: flex; /* Enable flexbox for the row */
+            justify-content: space-around; /* Distribute the items evenly */
+            flex-wrap: wrap; /* Allow wrapping if needed on smaller screens */
+        }
+
+        /* Ensures equal padding and margins between items */
+        .col-lg-4.text-center {
+            padding: 20px; /* Adds padding around each item */
+            box-sizing: border-box; /* Ensures padding doesn't add to the total width */
+        }
+
+        /* Responsive adjustments for mobile screens */
+        @media (max-width: 768px) {
+
+            .featurette {
+                flex-direction: column; /* Stack text and image vertically on small screens */
+                text-align: center; /* Center text */
+            }
+
+            .featurette-heading {
+                font-size: 1.5rem; /* Smaller heading for small screens */
+            }
+
+            .featurette img {
+                max-width: 100%; /* Allow the image to take up full width on small screens */
+                margin-bottom: 20px; /* Add space between image and text */
+            }
+
+            .col-lg-4.text-center {
+                flex-basis: 100%; /* On mobile, make each item full width */
+                margin-bottom: 20px; /* Add some space between items */
+            }
+
+            /* Adjust padding and spacing for mobile */
+            main {
+                padding-top: 50px; /* Reduce padding for smaller screens */
+            }
+
+            /* Carousel image adjustments for smaller screens */
+            .carousel-item img {
+                max-height: 300px; /* Reduce height for mobile */
+            }
+
+            /* Hero text size adjustments */
+            .hero-content h1 {
+                font-size: 1.8rem; /* Smaller heading size */
+            }
+
+            /* Form controls for better fit on smaller screens */
+            .form-group select,
+            .form-group input,
+            .form-group button {
+                width: 100%; /* Full width for form elements */
+            }
+
+            /* Center the hero form for better layout */
+            .hero-form-container {
+                width: 100%;
+                padding: 1rem; /* Add padding for mobile */
+            }
+
+            /* Image containers for smaller screens */
+            .image-container {
+                width: 100px; /* Adjust image size for mobile */
+                height: 100px; /* Keep it square */
+            }
+
+            /* Centered text and image */
+            .col-lg-4 h2 {
+                font-size: 1.25rem; /* Reduce font size */
+            }
+        }
+
+        /* Further adjustments for extra small screens */
+        @media (max-width: 576px) {
+            .carousel-item img {
+                max-height: 200px; /* Even smaller height for extra small screens */
+            }
+
+            /* Further adjustments to hero text */
+            .hero-content h1 {
+                font-size: 1.5rem; /* Reduce text size more */
+            }
+
+            /* Reduce padding in form container */
+            .hero-form-container {
+                padding: 0.5rem;
+            }
+
+            /* Adjust featurette images */
+            .featurette img {
+                max-width: 100%; /* Make sure images take full width */
+                max-height: 240px; /* Restrict image height */
+            }
+
+            /* Adjust button sizes */
+            .btn {
+                width: 100%; /* Full width buttons for mobile */
+            }
+        }
     </style>
 {% endblock %}
 
+
 {% block main %}
     <!-- Hero Section with Background Image and Text -->
-    <section class="hero py-5" style="background-image: url('{{ asset('images/default.png') }}');">
+    <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}');">
         <div class="hero-content">
-            <h1 class="display-4">Vítejte</h1>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h1 class="display-4">Objevte svět s námi!</h1>
         </div>
 
         <div class="hero-form-container">
@@ -112,58 +268,55 @@
     </section>
 
 
-
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <div class="container mt-4" style="padding: 20px">
+            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <!-- First Slide -->
+                    <div class="carousel-item">
+                        <img src="{{ asset('images/Zajezdy.jpg') }}" class="d-block w-100" alt="Slide 2">
+                        <div class="container">
+                            <div class="carousel-caption text-start">
+                                <h1 class="outlined-heading">Zájezdy</h1>
+                                <p><a class="btn btn-lg btn-primary text" href="/zajezdy">Zjistit více</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Second Slide -->
+                    <div class="carousel-item active">
+                        <img src="{{ asset('images/Aboutus.jpg') }}" class="d-block w-100" alt="Slide 1">
+                        <div class="container">
+                            <div class="carousel-caption ">
+                                <h1 class="outlined-heading">O nás</h1>
+                                <p><a class="btn btn-lg btn-primary" href="/onas">Zjistit více</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Third Slide -->
+                    <div class="carousel-item">
+                        <img src="{{ asset('images/Galerie.jpg') }}" class="d-block w-100" alt="Slide 3">
+                        <div class="container">
+                            <div class="carousel-caption text-end">
+                                <h1 class="outlined-heading">Fotogalerie</h1>
+                                <p><a class="btn btn-lg btn-primary" href="/galerie">Zjistit více</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
-        <div class="carousel-inner">
-            <!-- First Slide -->
-            <div class="carousel-item active">
-                <img src="{{ asset('images/aboutus.jpg') }}" class="d-block w-100" alt="Slide 1">
-                <div class="container">
-                    <div class="carousel-caption text-start">
-                        <h1>O nás</h1>
-                        <p class="opacity-75">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="/onas">Zjisti více</a></p>
-                    </div>
-                </div>
-            </div>
-            <!-- Second Slide -->
-            <div class="carousel-item">
-                <img src="{{ asset('images/tours.jpg') }}" class="d-block w-100" alt="Slide 2">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Zájezdy</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="/zajezdy">Naše nabídka</a></p>
-                    </div>
-                </div>
-            </div>
-            <!-- Third Slide -->
-            <div class="carousel-item">
-                <img src="{{ asset('images/photogallery.jpg') }}" class="d-block w-100" alt="Slide 3">
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <h1>Fotogalerie</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="/galerie">Prohlídka galerie</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
     <!-- Marketing messaging and featurettes -->
     <div class="container">
         <div class="row">
@@ -171,7 +324,7 @@
                 {% if domovskastranka.vystavenyZajezd1 %}
                     <div class="col-lg-4 text-center">
                         <div class="image-container">
-                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd1.image) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd1.nazev }}">
+                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd1.carouselImage2) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd1.nazev }}">
                         </div>
                         <h2 style="margin-bottom: 20px">{{ domovskastranka.vystavenyZajezd1.nazev }}</h2>
                         <a href="{{ path('zajezd_show', {nazev: domovskastranka.vystavenyZajezd1.nazev}) }}" class="btn btn-primary">Zjisti více</a>
@@ -180,7 +333,7 @@
                 {% if domovskastranka.vystavenyZajezd2 %}
                     <div class="col-lg-4 text-center">
                         <div class="image-container">
-                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd2.image) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd2.nazev }}">
+                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd2.carouselImage2) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd2.nazev }}">
                         </div>
                         <h2 style="margin-bottom: 20px">{{ domovskastranka.vystavenyZajezd2.nazev }}</h2>
                         <a href="{{ path('zajezd_show', {nazev: domovskastranka.vystavenyZajezd2.nazev}) }}" class="btn btn-primary">Zjisti více</a>
@@ -189,7 +342,7 @@
                 {% if domovskastranka.vystavenyZajezd3 %}
                     <div class="col-lg-4 text-center">
                         <div class="image-container">
-                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd3.image) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd3.nazev }}">
+                            <img src="{{ asset('uploads/zajezdy/' ~ domovskastranka.vystavenyZajezd3.carouselImage2) }}" class="img-fluid" alt="{{ domovskastranka.vystavenyZajezd3.nazev }}">
                         </div>
                         <h2 style="margin-bottom: 20px">{{ domovskastranka.vystavenyZajezd3.nazev }}</h2>
                         <a href="{{ path('zajezd_show', {nazev: domovskastranka.vystavenyZajezd3.nazev}) }}" class="btn btn-primary">Zjisti více</a>
@@ -201,16 +354,18 @@
         </div>
     </div>
 
-    <hr>
-
         <!-- Featurettes -->
+    <div class="container">
+        <hr>
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-body-secondary">It’ll blow your mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+                <h2 class="featurette-heading fw-normal lh-1">Prezentace společnosti Rail Europe</h2>
+                <p class="lead">Dne 18. 9. 2024 se naše Cestovní kancelář účastnila prezentace společnosti Rail Europe. Jedná se o společnost, která má ve svém portfoliu více než 70 dopravcních společností z Evropy. Aktuálně sepisujeme smlouvy o spolupráci a vy se můžete těšit na zajímavé nabídky zahrnující mimo jiné i vlakovou dopravu.</p>
             </div>
             <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text></svg>
+                <a>
+                    <img src="{{ asset('images/aktualita.jpg') }}" class="img-fluid mx-auto" alt="Descriptive Alt Text" style="max-height: 480px; max-width: 480px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); border-radius: 4px">
+                </a>
             </div>
         </div>
 
@@ -218,27 +373,18 @@
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-body-secondary">See for yourself.</span></h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+                <h2 class="featurette-heading fw-normal lh-1">Workshop Mauricius</h2>
+                <p class="lead">Dne 13. 9. 2024 proběhl v Praze veletrh se zástupci lokálních partnerů, hotelů a cestovních kanceláří z ostrova Mauricius. Za celý den jsme navázali řadu kontaktů, díky nimž vám budeme moci nabídnout výhodnější ubytování i dovolenou v této krásné a stále oblíbenější destinaci.</p>
             </div>
             <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text></svg>
+                <a>
+                    <img src="{{ asset('images/aktualita2.jpg') }}" class="img-fluid mx-auto" alt="Descriptive Alt Text" style="max-height: 480px; max-width: 480px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); border-radius: 4px">
+                </a>
             </div>
         </div>
 
         <hr>
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span class="text-body-secondary">Checkmate.</span></h2>
-                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
-            </div>
-            <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text></svg>
-            </div>
-        </div>
-
-        <hr>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

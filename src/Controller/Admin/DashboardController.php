@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Dokument;
 use App\Entity\Domovskastranka;
 use App\Entity\Photo;
+use App\Entity\Tag;
 use App\Entity\Zajezdy;
 use App\Entity\Guide;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -45,5 +46,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Průvodci', 'fas fa-users', Guide::class);
         yield MenuItem::linkToCrud('Dokumenty', 'fas fa-file', Dokument::class);
         yield MenuItem::linkToCrud('Fotografie', 'fas fa-images', Photo::class);
+        yield MenuItem::linkToCrud('Tagy pro Alba', 'fas fa-tags', Tag::class);
     }
 }

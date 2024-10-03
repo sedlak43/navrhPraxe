@@ -3,6 +3,8 @@
 {% block title %}Fotogalerie - CK VŠPJ{% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     {{ parent() }}
     <style>
         main {
@@ -11,25 +13,26 @@
 
         /* Masonry-style gallery */
         .gallery-container {
-            column-count: 4; /* Number of columns in the masonry layout */
-            column-gap: 15px; /* Spacing between columns */
+            column-count: 4;
+            column-gap: 15px;
             padding: 1rem;
         }
 
         .gallery-item {
-            break-inside: avoid; /* Prevent images from breaking across columns */
+            break-inside: avoid;
             margin-bottom: 15px;
             overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
         }
 
         .gallery-item img {
-            width: 100%; /* Make the image take the full width of its container */
-            height: auto; /* Maintain the natural aspect ratio */
+            width: 100%;
+            height: auto;
             transition: transform 0.3s ease-in-out;
-            display: block;
         }
 
-        /* Hover effect: slightly zooms in the image */
         .gallery-item:hover img {
             transform: scale(1.05);
         }
@@ -37,39 +40,250 @@
         /* Responsive adjustments */
         @media (max-width: 1200px) {
             .gallery-container {
-                column-count: 3; /* Reduce columns on medium screens */
+                column-count: 3;
             }
         }
 
         @media (max-width: 768px) {
             .gallery-container {
-                column-count: 2; /* Reduce columns on small screens */
+                column-count: 2;
+                padding: 0.5rem;
+            }
+
+            .gallery-item {
+                margin-bottom: 10px;
             }
         }
 
         @media (max-width: 576px) {
             .gallery-container {
-                column-count: 1; /* Single column layout on very small screens */
+                column-count: 1;
+            }
+
+            .modal-dialog {
+                max-width: 100%;
+            }
+        }
+
+        /* Modal adjustments */
+        .modal-dialog {
+            max-width: 90%;
+        }
+
+        .modal-body {
+            position: relative;
+            padding: 0;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Customizing the carousel controls */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: black;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-size: 100%, 100%;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Exit button */
+        .modal-header {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1051;
+        }
+
+        .modal-header .btn-close {
+            font-size: 1.5rem;
+            color: #000;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            outline: none;
+        }
+
+        .modal-header .btn-close:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .modal-header .btn-close .close-icon {
+            font-size: 20px;
+        }
+
+        /* Thumbnails */
+        .thumbnail-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbnail-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail-container img.active {
+            border-color: black;
+        }
+
+        /* Additional adjustments for mobile */
+        @media (max-width: 768px) {
+            .carousel-control-prev-icon, .carousel-control-next-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-body img {
+                max-height: 70vh;
+            }
+
+            .thumbnail-container img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .modal-dialog {
+                max-width: 100%;
+            }
+
+            .modal-body img {
+                max-height: 60vh;
+            }
+
+            .thumbnail-container img {
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
 {% endblock %}
 
 {% block main %}
-    <section class="hero text-white text-center py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
-        <div class="container">
+    <section class="hero text-center py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
+        <div class="hero-content">
             <h1 class="display-4">Fotogalerie</h1>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
     </section>
 
     <div class="container">
-        <div class="gallery-container">
-            {% for photo in photos %}
-                <div class="gallery-item">
-                    <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo">
+        <div class="row">
+            <!-- Filter Sidebar -->
+            <div class="col-md-3">
+                <form method="get" action="{{ path('gallery') }}">
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <select id="tagFilter" name="tag" class="form-select" onchange="this.form.submit()">
+                            <option value="">Všechny</option>
+                            {% for tag in tags %}
+                                <option value="{{ tag.id }}" {% if selectedTag == tag.id %}selected{% endif %}>{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Gallery -->
+            <div class="col-md-9">
+                <div class="gallery-container">
+                    {% for photo in photos %}
+                        <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-bs-slide-to="{{ loop.index0 }}">
+                            <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo">
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
+
+    <!-- Modal with Carousel -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Close Button (Icon) -->
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times close-icon"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for photo in photos %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo {{ loop.index }}" style="padding-top: 20px">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <!-- Thumbnails -->
+                    <div class="thumbnail-container mt-3">
+                        {% for photo in photos %}
+                            <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Thumbnail {{ loop.index }}" class="{% if loop.first %}active{% endif %}" data-bs-target="#galleryCarousel" data-bs-slide-to="{{ loop.index0 }}">
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Event listener for when a gallery item is clicked to open the modal
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const carousel = document.querySelector('#galleryCarousel');
+                const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carousel);
+                carouselInstance.to(index);
+            });
+        });
+
+        // Update active thumbnail based on carousel slide
+        const thumbnails = document.querySelectorAll('.thumbnail-container img');
+        const carouselElement = document.querySelector('#galleryCarousel');
+        const carouselInstance = new bootstrap.Carousel(carouselElement);
+
+        carouselElement.addEventListener('slide.bs.carousel', function (event) {
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            thumbnails[event.to].classList.add('active');
+        });
+
+        // Allow clicking on thumbnails to navigate to the respective slide
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                carouselInstance.to(index);
+            });
+        });
+    </script>
 {% endblock %}

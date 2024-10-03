@@ -39,15 +39,65 @@
             width: 220px; /* Fixed width for all controls */
         }
 
+        /* Adjustments for mobile view */
+        @media (max-width: 768px) {
+            /* Stack the cards one below the other */
+            .row-cols-md-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Make the image full width and responsive */
+            .card-img-top {
+                width: 100%;
+                height: auto; /* Adjust the image to auto height */
+            }
+
+            /* Adjust text and layout for mobile */
+            .card-body {
+                padding: 1rem;
+                text-align: center; /* Center-align the content for a mobile-friendly look */
+            }
+
+            .col-md-4 {
+                width: 100%;
+                margin-bottom: 20px; /* Add some space between cards */
+            }
+
+            /* Full-width buttons on mobile */
+            .btn-group .btn {
+                width: 100%;
+            }
+
+            /* Make form controls take full width on mobile */
+            .form-group select,
+            .form-group input {
+                width: 100%;
+            }
+        }
+
+        /* Further adjustments for smaller screens */
+        @media (max-width: 576px) {
+            .form-group select,
+            .form-group input {
+                width: 100%; /* Full width on smaller devices */
+            }
+
+            .btn-group .btn {
+                width: 100%; /* Full-width button on smaller devices */
+            }
+
+            .row-cols-md-3 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 {% endblock %}
 
 {% block main %}
     <!-- Hero Section with Background Image and Text -->
-    <section class="hero py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+    <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
         <div class="hero-content">
             <h1 class="display-4">Zájezdy</h1>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
 
         <div class="hero-form-container">
@@ -60,7 +110,6 @@
                                 {{ destinace }}
                             </option>
                         {% endfor %}
-
                     </select>
                 </div>
 
@@ -102,27 +151,19 @@
                     <div class="container">
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             {% for zajezd in zajezdy %}
-                                <div class="col">
+                                <div class="col-md-4">
                                     <div class="card shadow-sm">
-                                        <img src="{{ asset('uploads/zajezdy/' ~ zajezd.image) }}" class="card-img-top" alt="Travel Image">
+                                        <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage2) }}" class="card-img-top" alt="Travel Image">
 
                                         <div class="card-body" >
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <h4 class="text-left">{{ zajezd.nazev }}</h4>
-                                                </div>
-                                                <div class="col-4 text-end">
-                                                    <h5>
-                                                        {% if zajezd.typ == 'Pobyt' %}
-                                                            <h6>Od</h6>
-                                                            <h5>{{ zajezd.formattedCena }} Kč</h5>
-                                                        {% else %}
-                                                            <h5>{{ zajezd.formattedCena }} Kč</h5>
-                                                            <h6><br></h6>
-                                                        {% endif %}
-                                                    </h5>
-                                                </div>
-                                            </div>
+                                            <h4>{{ zajezd.nazev }}</h4>
+                                            <h5>
+                                                {% if zajezd.typ == 'Zájezdový pobyt' %}
+                                                    <h5>Od {{ zajezd.formattedCena }} Kč</h5>
+                                                {% else %}
+                                                    <h5>{{ zajezd.formattedCena }} Kč</h5>
+                                                {% endif %}
+                                            </h5>
 
                                             <hr>
 
@@ -152,7 +193,7 @@
 
                                             <div class="d-flex justify-content-center align-items-center mt-3">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{{ path('zajezd_show', {nazev: zajezd.nazev}) }}'">Více Zde</button>
+                                                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('zajezd_show', {nazev: zajezd.nazev | replace({' ': '-'}) }) }}'">Více zde</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,3 +208,4 @@
     </div>
 
 {% endblock %}
+

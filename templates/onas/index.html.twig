@@ -9,16 +9,66 @@
             padding-top: 38px;
         }
 
+        /* Hero section adjustments */
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        /* General content section adjustments */
+        .about-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Team section adjustments */
+        .team-member img {
+            width: 150px;
+            height: 150px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            /* Stack the columns on mobile */
+            .row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .col-md-6, .col-md-4 {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Adjustments for headings */
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .about-content h2 {
+                font-size: 1.75rem;
+            }
+
+            /* Adjust team member images for smaller screens */
+            .team-member img {
+                width: 120px;
+                height: 120px;
+            }
+
+            /* Ensure proper padding and margins */
+            .mb-4 {
+                margin-bottom: 1.5rem !important;
+            }
+        }
     </style>
 {% endblock %}
+
 
 {% block main %}
     <main>
         <!-- Hero Section with Background Image and Text -->
-        <section class="hero py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+        <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
             <div class="hero-content">
-                <h1 class="display-4">O nás</h1>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h1 class="display-4">Něco málo o nás</h1>
             </div>
         </section>
 
@@ -27,13 +77,21 @@
             <div class="container">
                 <div class="row align-items-center">
                     <!-- Image -->
-                    <div class="col-md-6 mb-4">
-                        <img src="{{ asset('images/cat.png') }}" class="img-fluid" alt="About Us Image">
+                    <div class="col-md-6 mb-4 d-flex justify-content-center">
+                        <img src="{{ asset('images/about.jpg') }}" class="img-fluid" alt="About Us Image" style="max-height: 600px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
                     </div>
                     <!-- Text and Button -->
                     <div class="col-md-6 mb-4">
                         <h2>Cestování. Dovolená. Dobrodružství.</h2>
-                        <p>Mauris laoreet ullamcorper volutpat. Cras laoreet aliquam elit ut luctus. Vivamus at augue ut tellus faucibus aliquam at id lacus. Etiam feugiat nisl malesuada, convallis urna at, accumsan tellus. Nunc a condimentum sapien. </p>
+                        <p><b>Vysoká škola polytechnická Jihlava</b> je od 7. 3. 2008 vlastníkem koncese na provozování cestovní kanceláře. Kancelář při VŠPJ byla zřízena za účelem vytvoření prostředí pro získání praktických zkušeností našich studentů v oboru a organizace zájezdů studentů oboru <b>Cestovní ruch</b>.</p>
+
+                        <p>Kromě vícedenních pobytů nabízí <b>CK VŠPJ</b> i jednodenní poznávací zájezdy po přírodních i kulturních památkách ČR a okolních států. Takto naši klienti navštívili např. památky UNESCO na Vysočině, v Jižních Čechách a Olomouci. Nelze opomenout ani návštěvy Vídně a Drážďan.</p>
+
+                        <p>Aktuální informace, ale i tipy na výlety či zajímavosti ze světa cestovního ruchu najdete také na našem <a href="https://www.facebook.com/vsp.jihlava/?locale=cs_CZ" target="_blank" style="text-decoration: none; color: inherit;"><u>Facebooku</u></a> a <a href="https://www.instagram.com/ck_vspj/" target="_blank" style="text-decoration: none; color: inherit;"><u>Instagramu.</u></a></p>
+
+                        <p><a href="/sluzby" style="text-decoration: none; color: inherit;"><u>Umožňujeme také přímé objednávky letenek, ubytování a pojištění.</u></a></p>
+
+                        <p>Provozujeme také <a href="/guides" style="text-decoration: none; color: inherit;"><u>průvodcovskou činnost</u></a> - možnost objednání průvodce po Jihlavě nebo průvodce po ČR či zahraničí, a to v ČJ nebo AJ. </p>
                     </div>
                 </div>
             </div>
@@ -43,30 +101,22 @@
             <!-- Our Team Section -->
             <section class="our-team py-5 bg-light">
                 <div class="container">
-                    <h2 class="text-center mb-4">Náš Tým</h2>
+                    <h2 class="text-center mb-4">Náš tým</h2>
                     <div class="row text-center">
                         <!-- Team Member 1 -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-6 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('images/avaA.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
-                                <h4>John Doe</h4>
-                                <p>Founder & CEO</p>
+                                <img src="{{ asset('images/ondrej-parizek.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
+                                <h4>Ondřej Pařízek</h4>
+                                <p>Vedoucí cestovní kanceláře</p>
                             </div>
                         </div>
                         <!-- Team Member 2 -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-6 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('images/avaB.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
-                                <h4>Jane Smith</h4>
-                                <p>Chief Operating Officer</p>
-                            </div>
-                        </div>
-                        <!-- Team Member 3 -->
-                        <div class="col-md-4 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('images/avaC.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 3">
-                                <h4>Emily Johnson</h4>
-                                <p>Head of Marketing</p>
+                                <img src="{{ asset('images/pavlina-fulneckova.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
+                                <h4>Mgr. Pavlína Rojík Fulnečková</h4>
+                                <p>Supervizor cestovní kancláře</p>
                             </div>
                         </div>
                     </div>
@@ -80,25 +130,25 @@
                         <!-- Team Member 1 -->
                         <div class="col-md-4 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('images/avaC.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
-                                <h4>Will Carter</h4>
-                                <p>Praktikant</p>
+                                <img src="{{ asset('images/daniel-sedlák.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
+                                <h4>Daniel Sedlák</h4>
+                                <p>Správce webu</p>
                             </div>
                         </div>
                         <!-- Team Member 2 -->
                         <div class="col-md-4 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('images/avaA.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
-                                <h4>Martin Brown</h4>
-                                <p>Praktikant</p>
+                                <img src="{{ asset('uploads/pruvodci/7716cfc091edc748b84426cd716d10828690b989.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
+                                <h4>Ludmila Svobodová</h4>
+                                <p>Marketing a grafický design</p>
                             </div>
                         </div>
                         <!-- Team Member 3 -->
                         <div class="col-md-4 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('images/avaB.png') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 3">
-                                <h4>Lilith Copper</h4>
-                                <p>Praktikant</p>
+                                <img src="{{ asset('images/nikola-ledlova.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 3">
+                                <h4>Nikola Lédlová</h4>
+                                <p>Sociální sítě</p>
                             </div>
                         </div>
                     </div>

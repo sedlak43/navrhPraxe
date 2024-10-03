@@ -1,0 +1,7 @@
+easy_admin:
+    site_name: 'Administrace CK'
+    design:
+        brand_color: '#3498db'
+
+    security:
+        role: ROLE_ADMIN

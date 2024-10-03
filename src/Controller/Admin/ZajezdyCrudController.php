@@ -31,7 +31,7 @@ class ZajezdyCrudController extends AbstractCrudController
 
             TextField::new('nazev', label: 'Název'),
 
-            TextField::new('podnazev', 'Podnázev'),
+            TextareaField::new('podnazev', 'Podnázev'),
 
             TextField::new('uvodniNadpis', 'Nadpis Úvodního Textu')->hideOnIndex(),
 
@@ -51,7 +51,7 @@ class ZajezdyCrudController extends AbstractCrudController
             NumberField::new('delka', 'Délka zájezdu (dny)'),
 
             ChoiceField::new('doprava')->setChoices([
-                'Autobus, odjezd z Jihlavy' => 'Autobus, odjezd z Jihlavy',
+                'Autobus' => 'Autobus',
                 'Vlak' => 'Vlak',
                 'Letadlo' => 'Letadlo',
                 'Vlastní' => 'Vlastní',
@@ -60,13 +60,16 @@ class ZajezdyCrudController extends AbstractCrudController
             ChoiceField::new('strava')->setChoices([
                 'Plná penze' => 'Plná penze',
                 'Polopenze' => 'Polopenze',
+                'Oběd' => 'Oběd',
                 'Snídaně' => 'Snídaně',
+                'Bez stravy' => 'Bez stravy',
+                'Dle programu' => 'Dle programu',
                 'Vlastní strava, za příplatek' => 'Vlastní strava, za příplatek',
             ]),
 
             ChoiceField::new('typ')->setChoices([
-                'Poznávací' => 'Poznávačka',
-                'Pobyt' => 'Pobyt',
+                'Poznávací zájezd' => 'Poznávací zájezd',
+                'Zájezdový pobyt' => 'Zájezdový pobyt',
             ]),
 
             TextField::new('destinace'),

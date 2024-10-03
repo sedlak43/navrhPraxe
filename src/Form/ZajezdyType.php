@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ZajezdyType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nazev', TextType::class, [
@@ -42,8 +42,11 @@ class ZajezdyType extends AbstractType
                 'choices' => [
                     'Plná penze' => 'Plná penze',
                     'Polopenze' => 'Polopenze',
+                    'Oběd' => 'Oběd',
                     'Snídaně' => 'Snídaně',
-                    'Vlastní strava' => 'Vlastní strava',
+                    'Bez stravy' => 'Bez stravy',
+                    'Dle programu' => 'Dle programu',
+                    'Vlastní strava, za příplatek' => 'Vlastní strava, za příplatek',
                 ],
             ])
             ->add('destinace', TextType::class, [
@@ -53,8 +56,8 @@ class ZajezdyType extends AbstractType
             ->add('typ', ChoiceType::class, [
                 'label' => 'Typ zájezdu',
                 'choices' => [
-                    'Poznávací' => 'Poznávačka',
-                    'Pobytový' => 'Pobyt',
+                    'Poznávací zájezd' => 'Poznávací zájezd',
+                    'Zájezdový pobyt' => 'Zájezdový pobyt',
                 ],
                 'required' => false,
             ])
@@ -96,7 +99,7 @@ class ZajezdyType extends AbstractType
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Zajezdy::class,

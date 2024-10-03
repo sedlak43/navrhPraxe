@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Full-screen background with gradient */
+        body {
+            background: linear-gradient(135deg, #7f00ff, #e100ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Centering the form */
+        .login-container {
+            background-color: #f8f9fa;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Styling the input fields */
+        .form-control {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Gradient button styling */
+        .btn-primary {
+            background: linear-gradient(to right, #7f00ff, #e100ff);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #e100ff, #7f00ff);
+        }
+
+        /* Link styling for forgot password, sign-up options */
+        .login-options {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-options a {
+            color: #7f00ff;
+            text-decoration: none;
+        }
+
+        .login-options a:hover {
+            text-decoration: underline;
+        }
+
+        /* Social icons styling */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f1f1;
+            border-radius: 50%;
+            transition: 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #ddd;
+        }
+
+        .social-icons i {
+            font-size: 18px;
+            color: #7f00ff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="login-container">
+        <h1 class="h3 mb-3 font-weight-normal">Přihlášení do CK VŠPJ</h1>
+
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Heslo" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn btn-lg btn-primary" type="submit">Přihlásit se</button>
+
+            <div class="login-options">
+                <a href="#">Zapomenuté heslo?</a>
+            </div>
+        </form>
+
+        <div class="social-icons">
+            <a href="https://www.facebook.com/vsp.jihlava/?locale=cs_CZ" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/ck_vspj/" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/cestovn%C3%AD-v%C5%A1pj-ba791a9b/" target="_blank"><i class="bi bi-linkedin"></i></a>
+        </div>
+    </div>
+{% endblock %}

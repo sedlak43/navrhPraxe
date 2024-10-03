@@ -9,43 +9,114 @@
             padding-top: 76px;
         }
 
+        /* Team Member Styling */
         .team-member {
             margin-bottom: 30px;
+            text-align: center;
         }
+
         .team-member img {
             max-width: 150px;
+            width: 100%;
+            height: auto;
             border-radius: 50%;
         }
+
         .team-member h4 {
             margin-top: 15px;
         }
+
         .team-member p {
             margin-bottom: 5px;
             text-align: left;
         }
 
+        /* Container for guide list */
+        .our-team {
+            padding: 2rem 0;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .team-member img {
+                max-width: 100px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .team-member h4 {
+                font-size: 1.25rem;
+            }
+
+            .team-member p {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 3rem 0;
+            }
+
+            ul {
+                font-size: 0.9rem;
+            }
+
+            .container ul li {
+                line-height: 1.4;
+            }
+
+            .container h5 {
+                font-size: 1rem;
+            }
+        }
+
+        /* Further mobile adjustments for smaller screens */
+        @media (max-width: 576px) {
+            .team-member img {
+                max-width: 80px;
+            }
+
+            .team-member h4 {
+                font-size: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+        }
 
     </style>
 {% endblock %}
 
 {% block main %}
     <!-- Hero Section with Background Image and Text -->
-    <section class="hero text-white d-flex justify-content-center py-5" style="background-image: url('{{ asset('images/default.png') }}'); background-size: cover; background-position: center;">
+    <section class="hero text-white d-flex justify-content-center py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
         <div class="hero-content">
-            <h1 class="display-4 text-center">Průvodci</h1>
-            <div class="lead">
-                <span>Rádi bychom vám představili průvodce, kteří s námi pravidelně spolupracují.</span>
-                <ul>
-                    <li>naši průvodci z řad studentů i profesionálů disponují průkazy průvodců 1. či 2. stupně</li>
-                    <li>nabízíme průvodcování českých i zahraničních skupin po Jihlavě a okolí</li>
-                    <li>doprovod hostů konferencí a seminářů v AJ</li>
-                    <li>možnost spolupráce s ostatními cestovními kancelářemi</li>
-                </ul>
-            </div>
+            <h1 class="display-4 text-center">Naši průvodci</h1>
         </div>
     </section>
 
 
+    <div class="container" style="margin-top: 20px; display: flex; justify-content: center;">
+        <div style="max-width: 700px; text-align: justify;">
+            <h5 style="display: block; text-align: left; font-weight: bold;">S potěšením vám představujeme naše zkušené průvodce, kteří s námi pravidelně spolupracují:</h5>
+            <ul style="list-style-position: inside;">
+                <li>Naši průvodci z řad profesionálů včetně studentů jsou držiteli průkazů průvodců 1. a 2. stupně.</li>
+                <li>Nabízíme průvodcovskou činnost pro české i zahraniční skupiny v ČR i zahraničí.</li>
+                <li>Poskytujeme doprovod hostů na konferencích a seminářích v českém i anglickém jazyce.</li>
+                <li>Spolupracujeme s dalšími cestovními kancelářemi.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <hr>
+    </div>
 
     <div class="container">
         <section class="our-team py-5 bg-light">
