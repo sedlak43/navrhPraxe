@@ -1,16 +1,18 @@
 <?php
 
-// src/Entity/Domovskastranka.php
+// src/Entity/VystaveneZajezdy.php
 
 namespace App\Entity;
 
 use AllowDynamicProperties;
-use App\Repository\DomovskastrankaRepository;
+use App\Repository\VystaveneZajezdyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[AllowDynamicProperties] #[ORM\Entity(repositoryClass: DomovskastrankaRepository::class)]
-class Domovskastranka
+#[AllowDynamicProperties] #[ORM\Entity(repositoryClass: VystaveneZajezdyRepository::class)]
+#[ORM\Table(name: 'vystavene_zajezdy')]
+class VystaveneZajezdy
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -40,7 +42,7 @@ class Domovskastranka
 
     public function setVystavenyZajezd1(?Zajezdy $vystavenyZajezd1): self
     {
-        $this->vystavenyZajez1 = $vystavenyZajezd1;
+        $this->vystavenyZajezd1 = $vystavenyZajezd1;
         return $this;
     }
 

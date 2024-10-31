@@ -9,10 +9,43 @@
             padding-top: 38px;
         }
 
-        /* Hero section adjustments */
-        .hero-content h1 {
-            font-size: 2.5rem;
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
         }
+
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
+        }
+
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
+        }
+
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
+        }
+
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
+        }
+
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
+        }
+
 
         /* General content section adjustments */
         .about-content img {
@@ -22,8 +55,10 @@
 
         /* Team section adjustments */
         .team-member img {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            object-position: 0 -32px; /* Moves the image 30px up */
         }
 
         /* Mobile responsiveness */
@@ -68,7 +103,7 @@
         <!-- Hero Section with Background Image and Text -->
         <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
             <div class="hero-content">
-                <h1 class="display-4">Něco málo o nás</h1>
+                <h1 class="display-4 outlined-heading-main">Něco málo o nás</h1>
             </div>
         </section>
 
@@ -76,23 +111,15 @@
         <section class="about-content py-5">
             <div class="container">
                 <div class="row align-items-center">
-                    <!-- Image -->
-                    <div class="col-md-6 mb-4 d-flex justify-content-center">
-                        <img src="{{ asset('images/about.jpg') }}" class="img-fluid" alt="About Us Image" style="max-height: 600px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                    </div>
-                    <!-- Text and Button -->
-                    <div class="col-md-6 mb-4">
-                        <h2>Cestování. Dovolená. Dobrodružství.</h2>
-                        <p><b>Vysoká škola polytechnická Jihlava</b> je od 7. 3. 2008 vlastníkem koncese na provozování cestovní kanceláře. Kancelář při VŠPJ byla zřízena za účelem vytvoření prostředí pro získání praktických zkušeností našich studentů v oboru a organizace zájezdů studentů oboru <b>Cestovní ruch</b>.</p>
-
-                        <p>Kromě vícedenních pobytů nabízí <b>CK VŠPJ</b> i jednodenní poznávací zájezdy po přírodních i kulturních památkách ČR a okolních států. Takto naši klienti navštívili např. památky UNESCO na Vysočině, v Jižních Čechách a Olomouci. Nelze opomenout ani návštěvy Vídně a Drážďan.</p>
-
-                        <p>Aktuální informace, ale i tipy na výlety či zajímavosti ze světa cestovního ruchu najdete také na našem <a href="https://www.facebook.com/vsp.jihlava/?locale=cs_CZ" target="_blank" style="text-decoration: none; color: inherit;"><u>Facebooku</u></a> a <a href="https://www.instagram.com/ck_vspj/" target="_blank" style="text-decoration: none; color: inherit;"><u>Instagramu.</u></a></p>
-
-                        <p><a href="/sluzby" style="text-decoration: none; color: inherit;"><u>Umožňujeme také přímé objednávky letenek, ubytování a pojištění.</u></a></p>
-
-                        <p>Provozujeme také <a href="/guides" style="text-decoration: none; color: inherit;"><u>průvodcovskou činnost</u></a> - možnost objednání průvodce po Jihlavě nebo průvodce po ČR či zahraničí, a to v ČJ nebo AJ. </p>
-                    </div>
+                    {% for item in onasPopisek %}
+                        <div class="col-md-6 mb-4 d-flex justify-content-center">
+                            <img src="{{ asset('uploads/' ~ item.obrazek) }}" class="img-fluid" alt="{{ item.nazev }}" style="max-height: 600px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <h2>{{ item.nazev }}</h2>
+                            <p>{{ item.popisek | raw }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -103,22 +130,23 @@
                 <div class="container">
                     <h2 class="text-center mb-4">Náš tým</h2>
                     <div class="row text-center">
-                        <!-- Team Member 1 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('images/ondrej-parizek.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
-                                <h4>Ondřej Pařízek</h4>
-                                <p>Vedoucí cestovní kanceláře</p>
-                            </div>
-                        </div>
-                        <!-- Team Member 2 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('images/pavlina-fulneckova.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
-                                <h4>Mgr. Pavlína Rojík Fulnečková</h4>
-                                <p>Supervizor cestovní kancláře</p>
-                            </div>
-                        </div>
+                        <!-- Stálý tým members -->
+                        {% for clenTymu in clenoveTymu %}
+                            {% if clenTymu.umisteni == 'Stálý tým' %}
+                                <div class="col-md-6 mb-4">
+                                    <div class="team-member">
+                                        <img src="{{ asset('uploads/praktikanti/' ~ clenTymu.obrazek) }}"
+                                             class="img-fluid rounded-circle mb-3"
+                                             style="height: 200px; width: 200px; object-fit: cover; object-position: 0 -28px;"
+                                             alt="{{ clenTymu.jmeno }}">
+                                        <h4>{{ clenTymu.jmeno }}</h4>
+                                        {% if clenTymu.role %}
+                                            <p>{{ clenTymu.role }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -127,34 +155,28 @@
                 <div class="container">
                     <h2 class="text-center mb-4">Praktikanti</h2>
                     <div class="row text-center">
-                        <!-- Team Member 1 -->
-                        <div class="col-md-4 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('images/daniel-sedlák.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 1">
-                                <h4>Daniel Sedlák</h4>
-                                <p>Správce webu</p>
-                            </div>
-                        </div>
-                        <!-- Team Member 2 -->
-                        <div class="col-md-4 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('uploads/pruvodci/7716cfc091edc748b84426cd716d10828690b989.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 2">
-                                <h4>Ludmila Svobodová</h4>
-                                <p>Marketing a grafický design</p>
-                            </div>
-                        </div>
-                        <!-- Team Member 3 -->
-                        <div class="col-md-4 mb-4">
-                            <div class="team-member">
-                                <img src="{{ asset('images/nikola-ledlova.jpg') }}" class="img-fluid rounded-circle mb-3" alt="Team Member 3">
-                                <h4>Nikola Lédlová</h4>
-                                <p>Sociální sítě</p>
-                            </div>
-                        </div>
+                        <!-- Praktikanti members -->
+                        {% for clenTymu in clenoveTymu %}
+                            {% if clenTymu.umisteni == 'Praktikanti' %}
+                                <div class="col-md-4 mb-4">
+                                    <div class="team-member">
+                                        <img src="{{ asset('uploads/praktikanti/' ~ clenTymu.obrazek) }}"
+                                             class="img-fluid rounded-circle mb-3"
+                                             style="height: 200px; width: 200px; object-fit: cover; object-position: 0 -28px;"
+                                             alt="{{ clenTymu.jmeno }}">
+                                        <h3>{{ clenTymu.jmeno }}</h3>
+                                        {% if clenTymu.role %}
+                                            <p>{{ clenTymu.role }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </section>
         </div>
+
     </main>
 {% endblock %}
 

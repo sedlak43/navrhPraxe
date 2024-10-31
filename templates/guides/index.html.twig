@@ -5,6 +5,18 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+
+        li {
+            list-style-position: outside; /* Ensures the bullet stays outside */
+            margin-left: 1em; /* Adds space between the bullet and the text */
+            text-align: left;
+        }
+
+        ul {
+            padding-left: 20px; /* Adjusts the overall padding of the list */
+            list-style-type: disc; /* Ensure the list uses default bullet points */
+        }
+
         main {
             padding-top: 76px;
         }
@@ -16,10 +28,9 @@
         }
 
         .team-member img {
-            max-width: 150px;
-            width: 100%;
             height: auto;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .team-member h4 {
@@ -34,6 +45,43 @@
         /* Container for guide list */
         .our-team {
             padding: 2rem 0;
+        }
+
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
+        }
+
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
+        }
+
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
+        }
+
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
+        }
+
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
         }
 
         /* Mobile adjustments */
@@ -95,22 +143,19 @@
 
 {% block main %}
     <!-- Hero Section with Background Image and Text -->
-    <section class="hero text-white d-flex justify-content-center py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
+    <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
         <div class="hero-content">
-            <h1 class="display-4 text-center">Naši průvodci</h1>
+            <h1 class="display-4 outlined-heading-main">Naši průvodci</h1>
         </div>
     </section>
 
 
     <div class="container" style="margin-top: 20px; display: flex; justify-content: center;">
         <div style="max-width: 700px; text-align: justify;">
-            <h5 style="display: block; text-align: left; font-weight: bold;">S potěšením vám představujeme naše zkušené průvodce, kteří s námi pravidelně spolupracují:</h5>
-            <ul style="list-style-position: inside;">
-                <li>Naši průvodci z řad profesionálů včetně studentů jsou držiteli průkazů průvodců 1. a 2. stupně.</li>
-                <li>Nabízíme průvodcovskou činnost pro české i zahraniční skupiny v ČR i zahraničí.</li>
-                <li>Poskytujeme doprovod hostů na konferencích a seminářích v českém i anglickém jazyce.</li>
-                <li>Spolupracujeme s dalšími cestovními kancelářemi.</li>
-            </ul>
+            {% for text in pruvodciUvodniText %}
+            <h5>{{ text.nazev }}</h5>
+                <p>{{ text.popisek|raw }}</p>
+            {% endfor %}
         </div>
     </div>
 
@@ -125,7 +170,13 @@
                     {% for guide in guides %}
                         <div class="col-md-4 mb-4">
                             <div class="team-member">
-                                <img src="{{ asset('uploads/pruvodci/' ~ guide.image) }}" class="img-fluid rounded-circle mb-3" alt="{{ guide.name }}">
+                                <img src="{{ asset('uploads/pruvodci/' ~ guide.image) }}"
+                                     class="img-fluid rounded-circle mb-3"
+                                     style="height: 200px; width: 200px;
+                                     {% if loop.index <= 6 %}
+                                             object-fit: cover; object-position: 0 -28px;
+                                     {% endif %}"
+                                     alt="{{ guide.name }}">
                                 <h3>{{ guide.name }}</h3>
                                 {% if guide.employment %}
                                     <p><b>Zaměstnání: </b>{{ guide.employment }}</p>

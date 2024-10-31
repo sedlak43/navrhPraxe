@@ -33,10 +33,17 @@ class ZajezdyType extends AbstractType
                 'choices' => [
                     'Autobus' => 'Autobus',
                     'Vlak' => 'Vlak',
-                    'Letadlo' => 'Letadlo',
+                    'Loď' => 'Loď',
+                    'Letecky' => 'Letecky',
                     'Vlastní' => 'Vlastní',
                 ],
             ])
+
+            ->add('dopravaPopisek', TextType::class, [
+                'label' => 'Popis dopravy',
+                'required' => false,
+            ])
+
             ->add('strava', ChoiceType::class, [
                 'label' => 'Strava',
                 'choices' => [
@@ -57,7 +64,7 @@ class ZajezdyType extends AbstractType
                 'label' => 'Typ zájezdu',
                 'choices' => [
                     'Poznávací zájezd' => 'Poznávací zájezd',
-                    'Zájezdový pobyt' => 'Zájezdový pobyt',
+                    'Pobyt' => 'Pobyt',
                 ],
                 'required' => false,
             ])

@@ -18,7 +18,7 @@ class TagCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name', 'Tag Name')
+            TextField::new('name', 'Název tagu')
         ];
     }
 }

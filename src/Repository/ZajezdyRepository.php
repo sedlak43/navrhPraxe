@@ -70,6 +70,9 @@ class ZajezdyRepository extends ServiceEntityRepository
                 ->setParameter('month', $month);
         }
 
+        // Add ordering by the 'zajezd_order' field
+        $qb->orderBy('z.zajezd_order', 'ASC'); // Adjust 'ASC' to 'DESC' if you want descending order
+
         return $qb->getQuery()->getResult();
     }
 }

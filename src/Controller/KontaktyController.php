@@ -2,27 +2,42 @@
 
 namespace App\Controller;
 
+use App\Repository\KontaktyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class KontaktyController extends AbstractController
 {
+    private KontaktyRepository $kontaktyRepository;
+
+    public function __construct(
+        KontaktyRepository $kontaktyRepository,
+    ) {
+        $this->kontaktyRepository = $kontaktyRepository;
+    }
+
     #[Route('/kontakty', name: 'app_kontakty')]
+    #[Route('/cs/kontakty', name: 'app_kontakty_cs')]
     public function index(): Response
     {
-        return $this->render('kontakty/index.html.twig');
+
+        $kontakty = $this->kontaktyRepository->findAll();
+
+
+        return $this->render('kontakty/index.html.twig', [
+            'kontakty' => $kontakty,
+        ]);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
     #[Route('/send-email', name: 'app_send_email_kontakty', methods: ['POST'])]
-    public function sendEmail(Request $request, MailerInterface $mailer): Response
+    #[Route('/cs/send-email', name: 'app_send_email_kontakty_cs', methods: ['POST'])]
+    public function sendEmail(Request $request): Response
     {
         $fullname = $request->request->get('fullname');
         $email = $request->request->get('email'); // Respondent's email
@@ -30,25 +45,29 @@ class KontaktyController extends AbstractController
         $subject = $request->request->get('subject');
         $messageContent = $request->request->get('message');
 
-        // Create the email to send to you (admin)
-        $emailToAdmin = (new Email())
-            ->from('sedlak43@student.vspj.cz') // Your fixed email address
-            ->to('sedlak43@student.vspj.cz') // Your Outlook email
-            ->subject($subject)
-            ->text("Jméno: $fullname\nEmail: $email\nTelefon: $phone\n\nZpráva:\n$messageContent");
+        // Příprava e-mailu pro administrátora
+        $toAdmin = 'ckvspj@vspj.cz';
+        $subjectAdmin = 'Nezávazná objednávka zájezdu';
+        $messageAdmin =
+            "Jméno: $fullname\nEmail: $email\nTelefon: $phone\n" .
+            "Předmět: $subject\n" .
+            "Zpráva: $messageContent\n";
 
-        // Send the email to admin
-        $mailer->send($emailToAdmin);
+        // Hlavičky e-mailu
+        $headers = 'From: ckvspj@vspj.cz' . "\r\n" .
+            'Reply-To: ' . $request->request->get('email') . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
 
-        // Create an email to send to the respondent as a confirmation
-        $emailToRespondent = (new Email())
-            ->from('sedlak43@student.vspj.cz') // Your fixed email address
-            ->to($email) // This should be the respondent's email address
-            ->subject('Potvrzení přijetí zprávy') // Confirmation subject
-            ->text("Dobrý den, $fullname,\n\nDěkujeme za zprávu. Toto je potvrzení, že jsme vaši zprávu obdrželi.\n\nVaše zpráva:\n$messageContent\n\nS pozdravem,\nCK VŠPJ");
 
-        // Send the email to the respondent
-        $mailer->send($emailToRespondent);
+        // Odeslání e-mailu pro administrátora
+        mail($toAdmin, $subjectAdmin, $messageAdmin, $headers);
+
+        // Příprava potvrzovacího e-mailu pro respondenta
+        $subjectRespondent = 'Potvrzení přijetí zprávy';
+        $messageRespondent = "Dobrý den, $fullname,\n\nDěkujeme za zprávu. Toto je potvrzení, že jsme vaši zprávu obdrželi.\nBrzy se Vám ozveme.\n\nPozdravem,\n\nCK VŠPJ";
+
+        // Odeslání potvrzovacího e-mailu
+        mail($email, $subjectRespondent, $messageRespondent, $headers);
 
         // Redirect or render a success page
         return $this->redirectToRoute('app_kontakty');

@@ -7,20 +7,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ZajezdyRepository;
-use App\Repository\DomovskastrankaRepository; // Fix the repository class name
+use App\Repository\VystaveneZajezdyRepository;
+use App\Repository\AktualityRepository;
+use App\Repository\CarouselHomepageRepository; // Import CarouselHomepage repository
 
 class HomepageController extends AbstractController
 {
     private ZajezdyRepository $zajezdyRepository;
-    private DomovskastrankaRepository $domovskastrankaRepository; // Use the correct repository name
+    private VystaveneZajezdyRepository $vystaveneZajezdyRepository;
+    private AktualityRepository $aktualityRepository;
+    private CarouselHomepageRepository $carouselHomepageRepository;
 
-    public function __construct(ZajezdyRepository $zajezdyRepository, DomovskastrankaRepository $domovskastrankaRepository)
-    {
+    public function __construct(
+        ZajezdyRepository          $zajezdyRepository,
+        VystaveneZajezdyRepository $vystaveneZajezdyRepository,
+        AktualityRepository        $aktualityRepository,
+        CarouselHomepageRepository $carouselHomepageRepository
+    ) {
         $this->zajezdyRepository = $zajezdyRepository;
-        $this->domovskastrankaRepository = $domovskastrankaRepository; // Corrected here as well
+        $this->vystaveneZajezdyRepository = $vystaveneZajezdyRepository;
+        $this->aktualityRepository = $aktualityRepository;
+        $this->carouselHomepageRepository = $carouselHomepageRepository;
     }
 
     #[Route('/homepage', name: 'app_homepage')]
+    #[Route('/cs/homepage', name: 'app_homepage_cs')]
     public function index(Request $request): Response
     {
         $destinace = $request->query->get('destinace');
@@ -51,8 +62,19 @@ class HomepageController extends AbstractController
 
         $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($criteria, $date);
 
-        // Fetch all records of Domovskastranka
-        $domovskastrankas = $this->domovskastrankaRepository->findBy([], null, 3); // Limit to 3 records
+        // Fetch all records of VystaveneZajezdy
+        $vystaveneZajezdy = $this->vystaveneZajezdyRepository->findBy([], null, 3); // Limit to 3 records
+
+        // Fetch all Aktuality records
+        $aktuality = $this->aktualityRepository->findAll();
+
+        // Remove HTML tags from each aktualita's popis
+        foreach ($aktuality as $aktualita) {
+            $aktualita->setPopisek(strip_tags($aktualita->getPopisek())); // Remove HTML tags
+        }
+
+        // Fetch carousel images
+        $carouselHomepage = $this->carouselHomepageRepository->findOneBy([]);
 
         return $this->render('homepage/index.html.twig', [
             'zajezdy' => $zajezdy,
@@ -63,7 +85,9 @@ class HomepageController extends AbstractController
             'destinaces' => $destinaces,
             'dopravas' => $dopravas,
             'types' => $types,
-            'domovskastrankas' => $domovskastrankas, // Pass the list of all Domovskastranka records
+            'vystaveneZajezdy' => $vystaveneZajezdy,
+            'aktuality' => $aktuality,
+            'carouselHomepage' => $carouselHomepage,
         ]);
     }
 }

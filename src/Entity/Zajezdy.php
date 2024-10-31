@@ -43,6 +43,9 @@ class Zajezdy
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $delka = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $zajezd_order = null;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
@@ -64,6 +67,9 @@ class Zajezdy
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $poznamky = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $dopravaPopisek = null;
+
     public function __toString(): string
     {
         return (string) $this->nazev; // Use 'nazev' for the string representation
@@ -77,6 +83,49 @@ class Zajezdy
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $carousel_image3 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image1 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image2 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image3 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image4 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image5 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image6 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image7 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image8 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image9 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $zajezdy_image10 = null;
+
+
+    public function getDopravaPopisek(): ?string
+    {
+        return $this->dopravaPopisek;
+    }
+
+    public function setDopravaPopisek(?string $dopravaPopisek): self
+    {
+        $this->dopravaPopisek = $dopravaPopisek;
+
+        return $this;
+    }
 
 
     public function getCarouselImage1(): ?string
@@ -112,6 +161,116 @@ class Zajezdy
         return $this;
     }
 
+    public function getZajezdyImage1(): ?string
+    {
+        return $this->zajezdy_image1;
+    }
+
+    public function setZajezdyImage1(?string $zajezdyImage1): self
+    {
+        $this->zajezdy_image1 = $zajezdyImage1;
+        return $this;
+    }
+
+    public function getZajezdyImage2(): ?string
+    {
+        return $this->zajezdy_image2;
+    }
+
+    public function setZajezdyImage2(?string $zajezdyImage2): self
+    {
+        $this->zajezdy_image2 = $zajezdyImage2;
+        return $this;
+    }
+
+    public function getZajezdyImage3(): ?string
+    {
+        return $this->zajezdy_image3;
+    }
+
+    public function setZajezdyImage3(?string $zajezdyImage3): self
+    {
+        $this->zajezdy_image3 = $zajezdyImage3;
+        return $this;
+    }
+
+    public function getZajezdyImage4(): ?string
+    {
+        return $this->zajezdy_image4;
+    }
+
+    public function setZajezdyImage4(?string $zajezdyImage4): self
+    {
+        $this->zajezdy_image4 = $zajezdyImage4;
+        return $this;
+    }
+
+    public function getZajezdyImage5(): ?string
+    {
+        return $this->zajezdy_image5;
+    }
+
+    public function setZajezdyImage5(?string $zajezdyImage5): self
+    {
+        $this->zajezdy_image5 = $zajezdyImage5;
+        return $this;
+    }
+
+    public function getZajezdyImage6(): ?string
+    {
+        return $this->zajezdy_image6;
+    }
+
+    public function setZajezdyImage6(?string $zajezdyImage6): self
+    {
+        $this->zajezdy_image6 = $zajezdyImage6;
+        return $this;
+    }
+
+    public function getZajezdyImage7(): ?string
+    {
+        return $this->zajezdy_image7;
+    }
+
+    public function setZajezdyImage7(?string $zajezdyImage7): self
+    {
+        $this->zajezdy_image7 = $zajezdyImage7;
+        return $this;
+    }
+
+    public function getZajezdyImage8(): ?string
+    {
+        return $this->zajezdy_image8;
+    }
+
+    public function setZajezdyImage8(?string $zajezdyImage8): self
+    {
+        $this->zajezdy_image8 = $zajezdyImage8;
+        return $this;
+    }
+
+    public function getZajezdyImage9(): ?string
+    {
+        return $this->zajezdy_image9;
+    }
+
+    public function setZajezdyImage9(?string $zajezdyImage9): self
+    {
+        $this->zajezdy_image9 = $zajezdyImage9;
+        return $this;
+    }
+
+    public function getZajezdyImage10(): ?string
+    {
+        return $this->zajezdy_image10;
+    }
+
+    public function setZajezdyImage10(?string $zajezdyImage10): self
+    {
+        $this->zajezdy_image10 = $zajezdyImage10;
+        return $this;
+    }
+
     public function __construct()
     {
         $this->datumy = new ArrayCollection();
@@ -124,6 +283,17 @@ class Zajezdy
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getZajezdOrder(): ?int
+    {
+        return $this->zajezd_order;
+    }
+
+    public function setZajezdOrder(int $zajezd_order): self
+    {
+        $this->zajezd_order = $zajezd_order;
+        return $this;
     }
 
     public function getNazev(): ?string

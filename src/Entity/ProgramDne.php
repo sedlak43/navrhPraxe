@@ -13,7 +13,7 @@ class ProgramDne
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'integer', name: 'cisloDne')]
+    #[ORM\Column(name: 'cisloDne', type: 'integer', nullable: true)]
     private ?int $cisloDne = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -41,7 +41,7 @@ class ProgramDne
         return $this->cisloDne;
     }
 
-    public function setCisloDne(int $cisloDne): self
+    public function setCisloDne(?int $cisloDne): self
     {
         $this->cisloDne = $cisloDne;
         return $this;

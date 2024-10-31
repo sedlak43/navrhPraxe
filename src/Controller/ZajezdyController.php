@@ -10,13 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ZajezdyController extends AbstractController
 {
     #[Route('/zajezdy/{nazev}', name: 'zajezd_show')]
+    #[Route('/cs/zajezdy/{nazev}', name: 'zajezd_show_cs')]
     public function show(ManagerRegistry $doctrine, string $nazev): Response
     {
         // Convert hyphens back to spaces for the 'nazev' field
@@ -59,6 +58,7 @@ class ZajezdyController extends AbstractController
     }
 
     #[Route('/zajezdy', name: 'zajezdy_list')]
+    #[Route('/cs/zajezdy', name: 'zajezdy_list_cs')]
     public function index(Request $request): Response
     {
         $destinace = $request->query->get('destinace');
@@ -87,7 +87,8 @@ class ZajezdyController extends AbstractController
             $criteria['typ'] = $typ;
         }
 
-        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($criteria, $date);
+        // Fetch zajezdy sorted by the 'order' field
+        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($criteria, $date, ['zajezd_order' => 'ASC']);
 
         return $this->render('zajezdy/index.html.twig', [
             'zajezdy' => $zajezdy,
@@ -101,13 +102,15 @@ class ZajezdyController extends AbstractController
         ]);
     }
 
+
     /**
      * @throws TransportExceptionInterface
      */
     #[Route('/zajezdy/{nazev}/order', name: 'zajezd_order', methods: ['POST'])]
-    public function sendOrder(Request $request, MailerInterface $mailer, ManagerRegistry $doctrine, string $nazev): Response
+    #[Route('/cs/zajezdy/{nazev}/order', name: 'zajezd_order_cs', methods: ['POST'])]
+    public function sendOrder(Request $request, ManagerRegistry $doctrine, string $nazev): Response
     {
-        // Find the Zajezd by 'nazev'
+        // Najděte Zajezd podle 'nazev'
         $zajezd = $doctrine->getRepository(Zajezdy::class)->findOneBy([
             'nazev' => str_replace('-', ' ', ucwords($nazev))
         ]);
@@ -116,46 +119,75 @@ class ZajezdyController extends AbstractController
             throw $this->createNotFoundException('Zájezd nebyl nalezen');
         }
 
-        // Get form data
-        $fullname = $request->request->get('jmeno');
-        $email = $request->request->get('email');
-        $phone = $request->request->get('tel');
+        // Získání dat z formuláře
         $osoby = (int) $request->request->get('osoby');
         $cena = (int) $zajezd->getCena();
         $bydliste = $request->request->get('bydliste');
-        $narozeni = $request->request->get('narozeni');
         $poznamka = $request->request->get('poznamka');
+        $telefon = $request->request->get('tel');
+        $email = $request->request->get('email');
         $pojisteni = $request->request->get('pojisteni') ? 'Ano' : 'Ne';
+        $newsletter = $request->request->get('newsletter') ? 'Ano' : 'Ne';
+        $statniPrislusnost = $request->request->get('statni_prislusnost');
 
-        // Calculate the total price
+        // Výpočet celkové ceny
         $totalCena = $cena * $osoby;
 
-        // Create the email
-        $emailMessage = (new Email())
-            ->from('sedlak43@student.vspj.cz') // Your fixed email address
-            ->to('sedlak43@student.vspj.cz') // Your Outlook email
-            ->subject('Nezávazná objednávka zájezdu')
-            ->text(
-                "Zájezd: {$zajezd->getNazev()}\n" .
-                "Jméno: $fullname\nEmail: $email\nTelefon: $phone\nPočet osob: $osoby\nCena za osobu: $cena\n" .
-                "Celková cena: $totalCena Kč\n" .
-                "Bydliště: $bydliste\nDatum narození: $narozeni\nPoznámka: $poznamka\nCestovní pojištění: $pojisteni"
-            );
+        // Příprava e-mailu pro administrátora
+        $toAdmin = 'ckvspj@vspj.cz';
+        $subjectAdmin = 'Nezávazná objednávka zájezdu';
 
-        // Send the email
-        $mailer->send($emailMessage);
+        // Zde vytvořte pole pro jména a narození
+        $names = [];
+        $birthdates = [];
 
-        // Create an email to send to the respondent as a confirmation
-        $emailToRespondent = (new Email())
-            ->from('sedlak43@student.vspj.cz') // Your fixed email address
-            ->to($email) // This should be the respondent's email address
-            ->subject('Potvrzení přijetí nezávazné objednávky') // Confirmation subject
-            ->text("Dobrý den, $fullname,\n\nDěkujeme za zprávu. Toto je potvrzení, že jsme vaši nezávaznou objednávku obdrželi.\nBrzy se Vám ozveme.\n\nPozdravem,\n\nCK VŠPJ");
+        // Loop through the number of people to gather names and birthdates
+        for ($i = 1; $i <= $osoby; $i++) {
+            $name = $request->request->get("jmeno_$i");
+            $birthdate = $request->request->get("narozeni_$i");
+            if ($name) {
+                $names[] = $name;
+            }
+            if ($birthdate) {
+                $birthdates[] = $birthdate;
+            }
+        }
 
-        // Send the email to the respondent
-        $mailer->send($emailToRespondent);
+        // Sestavte zprávu s jmény a daty narození
+        $namesList = implode(", ", $names);
+        $birthdatesList = implode(", ", $birthdates);
 
-        // Redirect to a success page or any other route
+        $messageAdmin =
+            "Zájezd: {$zajezd->getNazev()}\n" .
+            "Počet osob: $osoby\nCena za osobu: $cena\n" .
+            "Celková cena: $totalCena Kč\n" .
+            "Adresa trvalého bydliště: $bydliste\n" .
+            "Státní příslušnost: $statniPrislusnost\n" .
+            "Jména: $namesList\n" .
+            "Datum narození: $birthdatesList\n" .
+            "Telefoní číslo: $telefon\n".
+            "E-mail: $email\n".
+            "Poznámka: $poznamka\nCestovní pojištění: $pojisteni\nZájem o newsletter: $newsletter";
+
+        // Hlavičky e-mailu
+        $headers = 'From: ckvspj@vspj.cz' . "\r\n" .
+            'Reply-To: ' . $request->request->get('email') . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        // Odeslání e-mailu pro administrátora
+        mail($toAdmin, $subjectAdmin, $messageAdmin, $headers);
+
+        // Příprava potvrzovacího e-mailu pro respondenta
+        $fullname = implode(", ", $names); // Combine names for confirmation email
+        $firstName = explode(' ', trim($fullname))[0];
+        $subjectRespondent = 'Potvrzení přijetí nezávazné objednávky';
+        $messageRespondent = "Dobrý den, $firstName,\n\nDěkujeme za zprávu. Toto je potvrzení, že jsme vaši nezávaznou objednávku obdrželi.\nBrzy se Vám ozveme.\n\nPozdravem,\n\nCK VŠPJ";
+
+        // Odeslání potvrzovacího e-mailu
+        mail($request->request->get('email'), $subjectRespondent, $messageRespondent, $headers);
+
+        // Přesměrování na úspěšnou stránku nebo jinou trasu
         return $this->redirectToRoute('zajezd_show', ['nazev' => $nazev]);
     }
+
 }

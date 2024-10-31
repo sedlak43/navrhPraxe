@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PhotoGalleryController extends AbstractController
 {
     #[Route('/galerie', name: 'gallery')]
+    #[Route('/cs/galerie', name: 'gallery_cs')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response // Add Request type hint
     {
         // Fetch all tags for the filter

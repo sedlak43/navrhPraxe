@@ -28,6 +28,43 @@
             padding: 15px;
         }
 
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
+        }
+
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
+        }
+
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
+        }
+
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
+        }
+
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             /* Adjust padding and margin for mobile */
@@ -82,7 +119,7 @@
     <!-- Hero Section with Background Image and Text -->
     <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
         <div class="hero-content">
-            <h1 class="display-4">Dokumenty</h1>
+            <h1 class="display-4 outlined-heading-main">Dokumenty</h1>
         </div>
     </section>
 
@@ -90,10 +127,14 @@
         <div class="container">
             <section class="dokuments py-1">
                 <br>
-                <h5 style="text-align: left;">Zde naleznete veškeré důležité dokumenty k cestovní kanceláři VŠPJ</h5>
+                {% for dokument in dokumenty_text %}
+                    <h5 style="text-align: left;">{{ dokument.nazev }}</h5>
+                {% endfor %}
 
                 <div class="mt-5 border p-4 rounded">
-                    <h3>Ke stažení</h3>
+                    {% for dokument in dokumenty_text %}
+                        <h3>{{ dokument.getNazevDokumenty() }}</h3>
+                    {% endfor %}
                     <hr>
                     <ul class="list-group"  >
                         {% for dokument in dokuments %}
@@ -106,18 +147,11 @@
                     </ul>
                 </div>
 
-                <div class="mt-5">
-                    <p><a href="https://www.vspj.cz/cs/skola/ochrana-osobnich-udaju-gdpr-" class="btn btn-link">GDPR Vysoké školy polytechnické Jihlava</a></p>
-
-                    <p>V případě, že dojde mezi námi a spotřebitelem ke vzniku spotřebitelského sporu z kupní smlouvy nebo ze smlouvy o poskytování služeb, který se nepodaří vyřešit vzájemnou dohodou, může spotřebitel podat návrh na mimosoudní řešení takového sporu určenému subjektu mimosoudního řešení spotřebitelských sporů, kterým je</p>
-                    <strong>Česká obchodní inspekce</strong><br>
-                    Ústřední inspektorát – oddělení ADR<br>
-                    Gorazdova 1969/24<br>
-                    120 00 Praha 2<br>
-                    <br>
-                    Email: <a href="mailto:adr@coi.cz">adr@coi.cz</a><br>
-                    Web: <a href="https://adr.coi.cz">adr.coi.cz</a>
-                </div>
+                {% for dokument in dokumenty_text %}
+                    <div class="mt-5">
+                        <p>{{ dokument.popisek|raw }}</p>
+                    </div>
+                {% endfor %}
             </section>
         </div>
     </main>

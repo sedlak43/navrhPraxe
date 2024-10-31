@@ -1,0 +1,415 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zájezdy - CK VŠPJ{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        main {
+            padding-top: 76px;
+        }
+
+        /* Make all cards have the same height */
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer; /* Změní kurzor na ruku */
+            border-radius: 16px;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 200px; /* Adjust image height as needed */
+            border-radius: 16px;
+        }
+
+        /* Form group styling */
+        .form-group {
+            flex: 1; /* Allow form groups to grow */
+            min-width: 150px; /* Minimum width of form groups */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ensure form controls have a fixed width */
+        .form-group select,
+        .form-group input {
+            width: 220px; /* Fixed width for all controls */
+        }
+
+        h4{
+            font-size: 1.75rem;
+        }
+
+        h5{
+            font-size: 1.25rem;
+        }
+
+        h6{
+            font-size: 1rem;
+        }
+
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
+        }
+
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
+        }
+
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
+        }
+
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
+        }
+
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
+        }
+
+        /* Search form container */
+        .hero-form-container {
+            width: 100%;
+            max-width: 1000px; /* Limit the maximum width of the form */
+            display: flex;
+            flex-wrap: wrap; /* Allow form elements to wrap if they don’t fit in one line */
+            gap: 1rem; /* Space between form elements */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for the form */
+            padding: 20px;
+            border-radius: 4px; /* Rounded corners for the form */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        /* Adjustments for mobile view */
+        @media (max-width: 1024px) {
+            /* Stack the cards one below the other */
+            .row-cols-md-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Make the image full width and responsive */
+            .card-img-top {
+                width: 100%;
+                height: 560px;
+                border-radius: 16px;
+            }
+
+            /* Adjust text and layout for mobile */
+            .card-body {
+                padding: 40px;
+                text-align: left; /* Center-align the content for a mobile-friendly look */
+                border-radius: 16px;
+            }
+
+            .col-md-4 {
+                width: 100%;
+                margin-bottom: 20px; /* Add some space between cards */
+            }
+
+            .btn {
+                height: 88px;
+                width: 180px;
+                border-radius: 16px;
+                font-size: 2.5rem;
+            }
+
+            /* Make form controls take full width on mobile */
+            .form-group select,
+            .form-group input {
+                width: 100%;
+            }
+
+            h4 {
+                font-size: 4rem;
+            }
+
+            h5 {
+                font-size: 3.5rem;
+            }
+
+            h6 {
+                font-size: 2.75rem;
+            }
+
+            .mb-2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Adjustments for mobile view */
+        @media (max-width: 768px) {
+
+            .hero-form-container {
+                display: block; /* Change from flex to block */
+                width: 100%; /* Ensure full width */
+            }
+
+            /* Stack the cards one below the other */
+            .row-cols-md-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Make the image full width and responsive */
+            .card-img-top {
+                width: 100%;
+                height: 560px;
+                border-radius: 16px;
+            }
+
+            /* Adjust text and layout for mobile */
+            .card-body {
+                padding: 40px;
+                text-align: left; /* Center-align the content for a mobile-friendly look */
+                border-radius: 16px;
+            }
+
+            .col-md-4 {
+                width: 100%;
+                margin-bottom: 20px; /* Add some space between cards */
+            }
+
+            .btn {
+                height: 88px;
+                width: 180px;
+                border-radius: 16px;
+                font-size: 2.5rem;
+            }
+
+            /* Make form controls take full width on mobile */
+            .form-group select,
+            .form-group input {
+                width: 100%;
+            }
+
+            h4 {
+                font-size: 4rem;
+            }
+
+            h5 {
+                font-size: 3.5rem;
+            }
+
+            h6 {
+                font-size: 2.75rem;
+            }
+
+            .mb-2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Further adjustments for smaller screens */
+        @media (max-width: 576px) {
+            .form-group select,
+            .form-group input {
+                width: 100%; /* Full width on smaller devices */
+            }
+
+            .row-cols-md-3 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- Hero Section with Background Image and Text -->
+    <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
+        <div class="hero-content">
+            <h1 class="display-4 outlined-heading-main">Zájezdy</h1>
+        </div>
+
+        <div class="hero-form-container">
+            <form method="get" action="{{ path('zajezdy_list') }}" class="filter-form" style="display: flex; flex-wrap: wrap; gap: 1rem; width: 100%;">
+
+                <!-- Destinace -->
+                <div class="form-group">
+                    <select id="destinace" name="destinace" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_destinace is empty %}selected{% endif %}>Destinace</option>
+                        {% for destinace in destinaces|sort %}
+                            <option value="{{ destinace }}" {% if selected_destinace == destinace %}selected{% endif %}>
+                                {{ destinace }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Doprava -->
+                <div class="form-group">
+                    <select id="doprava" name="doprava" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_doprava is empty %}selected{% endif %}>Doprava</option>
+                        {% for doprava in dopravas|sort %}
+                            <option value="{{ doprava }}" {% if selected_doprava == doprava %}selected{% endif %}>
+                                {{ doprava }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Typy -->
+                <div class="form-group">
+                    <select id="typ" name="typ" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_typ is empty %}selected{% endif %}>Typy</option>
+                        {% for type in types|sort %}
+                            <option value="{{ type }}" {% if selected_typ == type %}selected{% endif %}>
+                                {{ type }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="form-group" id="datePickerContainer">
+                    <input type="month" class="form-control" id="datePicker" name="date" aria-label="Datum" value="{{ selected_date }}" onchange="this.form.submit()">
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="album py-5 bg-body-tertiary">
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            {% for zajezd in zajezdy_student %}
+                                <div class="col-md-4">
+                                    <div class="card shadow-sm" onclick="window.location.href='{{ path('zajezd_student_show', {nazev: zajezd.nazev | replace({' ': '-'}) }) }}'">
+                                        <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage2) }}" class="card-img-top" alt="Travel Image">
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <!-- Left Column: Title and Subtitle -->
+                                                <div class="col-8">
+                                                    <h4>{{ zajezd.nazev }}</h4>
+                                                    <h6>{{ zajezd.podnazev ? zajezd.podnazev|nl2br : '&nbsp;' }}</h6>
+                                                </div>
+
+                                                <!-- Right Column: Price -->
+                                                <div class="col-4 text-end">
+                                                    <h5>
+                                                        {% if zajezd.typ == 'Pobyt' %}
+                                                            Od {{ zajezd.formattedCena }} Kč
+                                                        {% else %}
+                                                            {{ zajezd.formattedCena }} Kč
+                                                        {% endif %}
+                                                    </h5>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div>
+                                                <div class="mb-2">
+                                                    <i class="bi bi-calendar"></i>
+
+                                                    {% if zajezd.datumyStudent is empty %}
+                                                        <!-- No dates available -->
+                                                        <span>Termín na vyžádání</span>
+                                                    {% else %}
+                                                        <!-- Show the first date range -->
+                                                        {% set firstDate = zajezd.datumyStudent|first %}
+                                                        {% set termDelka = firstDate.delka is not null ? firstDate.delka : zajezd.delka %}
+                                                        {% set endDate = firstDate.datum|date_modify("+" ~ (termDelka - 1) ~ " days") %}
+
+                                                        {% if termDelka == 1 %}
+                                                            <!-- Show only the start date if délka is 1 -->
+                                                            <span>{{ firstDate.datum|date('d. m. Y') }}</span>
+                                                        {% else %}
+                                                            <!-- Show the full date range if délka is more than 1 -->
+                                                            <span>{{ firstDate.datum|date('d. m.') }} - {{ endDate|date('d. m. Y') }}</span>
+                                                        {% endif %}
+
+                                                        <!-- Show additional dates based on the number of remaining dates -->
+                                                        {% set remainingDates = zajezd.datumyStudent|length - 1 %}
+                                                        {% if remainingDates > 0 %}
+                                                            <span>
+                                                            (+{{ remainingDates }}
+                                                                {% if remainingDates == 1 %}
+                                                                    termín
+                                                                {% elseif remainingDates in 2..4 %}
+                                                                    termíny
+                                                                {% else %}
+                                                                    termínů
+                                                                {% endif %}
+                                                            )
+                                                            </span>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Doprava with icons -->
+                                                <div class="mb-2">
+                                                    {% if zajezd.doprava == 'Autobus' %}
+                                                        <i class="bi bi-bus-front"></i> Autobus
+                                                    {% elseif zajezd.doprava == 'Letecky' %}
+                                                        <i class="bi bi-airplane"></i> Letecky
+                                                    {% elseif zajezd.doprava == 'Loď' %}
+                                                        <i class="fas fa-ship"></i> Lodní doprava
+                                                    {% elseif zajezd.doprava == 'Vlak' %}
+                                                        <i class="bi bi-train-front"></i> Vlak
+                                                    {% elseif zajezd.doprava == 'Vlastní' %}
+                                                        <i class="bi bi-car-front"></i> Vlastní
+                                                    {% else %}
+                                                        <i class="bi bi-question-circle"></i> Neznámá doprava
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Strava with knife and fork icon -->
+                                                <div class="mb-2">
+                                                    <i class="fas fa-utensils"></i> <!-- Font Awesome knife and fork icon -->
+                                                    <span>{{ zajezd.strava }}</span>
+                                                </div>
+
+                                                <!-- Typ zájezdu -->
+                                                <div class="mb-2">
+                                                    <i class="bi bi-tag"></i>
+                                                    <span>{{ zajezd.typ }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-center align-items-center mt-3">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('zajezd_student_show', {nazev: zajezd.nazev | replace({' ': '-'}) }) }}'">Více zde</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

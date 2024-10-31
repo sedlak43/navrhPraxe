@@ -37,7 +37,90 @@
             padding: 20px; /* Add padding for better fit */
         }
 
-        /* Mobile adjustments */
+        .size_4 {
+            height: 200px;
+        }
+
+        .size_6 {
+            height: 220px;
+        }
+
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
+        }
+
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
+        }
+
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
+        }
+
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
+        }
+
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
+        }
+
+
+        @media (max-width: 1024px) {
+            h1.display-4 {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+                padding-top: 20px;
+            }
+
+            .tile {
+                margin-bottom: 20px;
+            }
+
+            .col-md-4, .col-md-6 {
+                flex-basis: 100%; /* Stack columns vertically */
+                max-width: 100%;
+            }
+
+            /* Adjust tile text */
+            .tile h4 {
+                font-size: 1.25rem;
+            }
+
+            .tile ul li {
+                font-size: 0.9rem;
+            }
+
+            .size_4 {
+                height: 120px;
+            }
+
+            .size_6 {
+                height: 180px;
+            }
+        }
+
         @media (max-width: 768px) {
             h1.display-4 {
                 font-size: 2rem;
@@ -95,58 +178,23 @@
 
     <main class="container containerA my-5">
         <div class="row g-4">
-            <!-- Letenky -->
-            <div class="col-md-4">
-                <div class="tile bg-light shadow-sm p-4">
-                    <h4>Letenky</h4>
-                    <ul>
-                        <li>Přes naši cestovní kancelář můžete objednat letenky. Letenky zajistíte přes náš e-mail <a href="mailto:cestovka@vspj.cz">cestovka@vspj.cz</a>.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Ubytování -->
-            <div class="col-md-4">
-                <div class="tile bg-light shadow-sm p-4">
-                    <h4>Ubytování</h4>
-                    <ul>
-                        <li>Přes naši cestovní kancelář si lze též zajistit ubytování jak v ČR, tak v zahraničí. Pro poptávku ubytování využijte e-mail <a href="mailto:cestovka@vspj.cz">cestovka@vspj.cz</a>.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Cestovní pojištění -->
-            <div class="col-md-4">
-                <div class="tile bg-light shadow-sm p-4">
-                    <h4>Cestovní pojištění</h4>
-                    <ul>
-                        <li>Pomocí našich systémů je možno sjednat také cestovní pojištění.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Průvodcovská činnost -->
-            <div class="col-md-6">
-                <div class="tile bg-light shadow-sm p-4">
-                    <h4>Průvodcovská činnost</h4>
-                    <ul>
-                        <li>Naši průvodci z řad profesionálů i studentů  disponují průkazy průvodců 1. či 2. stupně.</li>
-                        <li>Nabízíme průvodcování českých i zahraničních skupin.</li>
-                        <li>Nabízíme doprovod hostů konferencí a seminářů v anglickém jazyce.</li>
-                        <li>Možnost spolupráce s ostatními cestovními kancelářemi.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Zájezdy na míru -->
-            <div class="col-md-6">
-                <div class="tile bg-light shadow-sm p-4">
-                    <h4>Zájezdy na míru</h4>
-                    <ul>
-                        <li>Spolupracujeme s mnoha partnery z různých zemí. Přáli byste si něco jiného, než máme v nabídce? Napište nám na <a href="mailto:cestovka@vspj.cz">cestovka@vspj.cz</a> a vymyslíme vám dovolenou na míru.</li>
-                    </ul>
-                </div>
-            </div>
+            {% for sluzba in sluzby %}
+                {% if (loop.index - 1) % 5 < 3 %}
+                    <div class="col-md-4">
+                        <div class="tile bg-light shadow-sm p-4 size_4">
+                            <h4>{{ sluzba.nazev }}</h4>
+                            <p>{{ sluzba.popisek|raw }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-6">
+                        <div class="tile bg-light shadow-sm p-4 size_6">
+                            <h4>{{ sluzba.nazev }}</h4>
+                            <p>{{ sluzba.popisek|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
 
         <h3>Zašlete nám poptávku</h3>

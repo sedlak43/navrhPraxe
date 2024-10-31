@@ -20,13 +20,13 @@ class GuideCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('name', 'Name'),
-            TextField::new('employment', 'Employment'),
-            TextField::new('language', 'Language'),
-            TextField::new('certificate', 'Certificate'),
-            TextareaField::new('experience', 'Experience'),
-            TextareaField::new('about', 'About'),
-            ImageField::new('image', 'Image')
+            TextField::new('name', 'Jméno'),
+            TextField::new('employment', 'Zaměstnání'),
+            TextField::new('language', 'Jazyk'),
+            TextField::new('certificate', 'Certifikáty'),
+            TextareaField::new('experience', 'Zkušenosti'),
+            TextareaField::new('about', 'O mně'),
+            ImageField::new('image', 'Obrázek')
                 ->setUploadDir('public/uploads/pruvodci')
                 ->setBasePath('uploads/pruvodci')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')

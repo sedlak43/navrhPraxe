@@ -14,6 +14,9 @@
             html, body {
                 height: 100%;
                 background-color: #f8f9fa;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden; /* Prevent horizontal scrolling */
             }
 
             /* Wrapper for the entire page */
@@ -178,8 +181,8 @@
 
             /* Team member styling */
             .our-team .team-member img {
-                width: 150px; /* Sets a fixed width for team member images */
-                height: 150px; /* Sets a fixed height for team member images */
+                width: 200px; /* Sets a fixed width for team member images */
+                height: 200px; /* Sets a fixed height for team member images */
                 object-fit: cover; /* Ensures images cover the area without distortion */
                 border: 5px solid #fff; /* Optional white border around team member images */
             }
@@ -244,7 +247,63 @@
                 box-sizing: border-box; /* Include padding in element's total width and height */
             }
 
+            .navbar-brand-group {
+                display: flex;
+                align-items: center; /* Vertically align the logos */
+            }
 
+            .navbar-brand-group .navbar-brand + .navbar-brand {
+                margin-left: 28px; /* Adjust spacing between logos */
+            }
+
+            /* Base font size for desktop */
+            body {
+                font-size: 16px; /* Default size */
+                line-height: 1.6; /* Optional: line height for readability */
+            }
+
+            /* Tablet view (768px to 1024px width) */
+            @media (min-width: 768px) and (max-width: 1024px) {
+                /* Set the container to full width */
+                .container {
+                    width: 100%;
+                    padding: 0 15px; /* Optional: adds a small margin to the sides */
+                    max-width: 100%; /* Ensures it spans the entire width */
+                }
+
+                body {
+                    font-size: 17px; /* Slightly increase base font size for tablets */
+                    line-height: 1.7;
+                }
+
+                h1 {
+                    font-size: 2.8rem; /* Adjust headings for tablet */
+                }
+
+                h2 {
+                    font-size: 2.2rem;
+                }
+
+                h3 {
+                    font-size: 1.9rem;
+                }
+
+                p, li {
+                    font-size: 1.3rem; /* Increase paragraph and list font size */
+                }
+
+                .card-title, .card-text {
+                    font-size: 1.3rem; /* Adjust card title and text size */
+                }
+
+                .btn {
+                    font-size: 1.2rem; /* Buttons on tablet */
+                }
+
+                .nav-link, .footer-text {
+                    font-size: 1.3rem; /* Increase size for navigation and footer text */
+                }
+            }
         </style>
     {% endblock %}
 </head>
@@ -252,11 +311,16 @@
 {% block body %}
     <header class="fixed-top">
         <nav class="navbar navbar-expand-lg">
-            <!-- Logo -->
-            <a class="navbar-brand" href="https://www.vspj.cz/cs/">
-                <img src="{{ asset('logo/logoBc.png') }}"  alt="Logo">
-                <img src="{{ asset('logo/VŠPJblack.png') }}" alt="VŠPJ Logo" style="margin-left: 28px;">
-            </a>
+            <div class="navbar-brand-group">
+                <!-- First Logo -->
+                <a class="navbar-brand" href="/homepage">
+                    <img src="{{ asset('logo/logoB.png') }}" alt="Logo">
+                </a>
+                <!-- Second Logo -->
+                <a class="navbar-brand" href="https://www.vspj.cz/cs/" style="margin-left: 28px;">
+                    <img src="{{ asset('logo/VŠPJblack.png') }}" alt="VŠPJ Logo">
+                </a>
+            </div>
 
             <!-- Navbar Toggle Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -314,8 +378,8 @@
 
     <!-- Company Name -->
     <div class="footer-name">
-        &copy; <a> 2021 - OIKT - VŠPJ</a><br>
-        <a href="https://www.vspj.cz/" target="_blank" style="text-decoration: none; color: inherit;">www.vspj.cz</a>
+        &copy; <a> 2024 - Daniel Sedlák - VŠPJ</a><br>
+        <a href="https://www.vspj.cz/cs/" target="_blank" style="text-decoration: none; color: inherit;">www.vspj.cz</a>
     </div>
 
 

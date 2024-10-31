@@ -30,118 +30,119 @@
                 border: none;
             }
 
-            .uniform-img {
+            /* Set fixed size for carousel images */
+            .carousel-img {
                 width: 100%;
-                height: 250px;
+                height: 400px; /* You can adjust the height as needed */
+                object-fit: cover; /* Ensures the image covers the area without distortion */
+            }
+
+            /* Set fixed size for thumbnail images */
+            .thumbnail-img {
+                width: 100%;
+                height: 100px;
                 object-fit: cover;
+                border: none;
+                margin: 0;
             }
 
             .carousel-item img {
                 width: 100%;
-                max-height: 500px;
-                object-fit: cover;
+                max-height: 480px;
+                object-fit: contain;
                 object-position: center;
                 border: none;
                 border-radius: 8px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
 
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-                .carousel-item img {
-                    max-height: 300px; /* Reduce carousel image height for mobile */
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+                border-radius: 50%; /* Optional: round buttons */
+            }
+
+
+            /* Flex styling for thumbnails row */
+            .thumbnail-row {
+                display: flex;
+                flex-wrap: nowrap; /* Prevent wrapping */
+                overflow-x: auto; /* Allow horizontal scrolling if needed */
+            }
+
+            .thumbnail-col {
+                flex: 0 0 auto; /* Prevent shrinking */
+                margin-right: 5px; /* Spacing between thumbnails */
+            }
+
+            /* Hero section styles */
+            .hero {
+                position: relative;
+                color: white;
+                background-size: cover; /* Cover the entire container with the background image */
+                background-position: center;
+                padding: 5rem 1rem; /* Padding around the hero content */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            }
+
+            /* Centering hero content */
+            .hero-content {
+                text-align: center; /* Center the entire content horizontally */
+                margin-bottom: 2rem; /* Space below the hero text */
+                color: black;
+            }
+
+            .hero-content h1 {
+                text-align: center; /* Ensure the h1 stays centered */
+            }
+
+            .hero-content p {
+                text-align: left; /* Keep paragraph text left-aligned */
+            }
+
+            .hero-content .lead {
+                text-align: left; /* Align the paragraph and ul text to the left */
+            }
+
+            .hero-content ul {
+                text-align: left; /* Ensure the ul is aligned left */
+                padding-left: 20px; /* Optional: Adjust left padding for list */
+            }
+
+            /* Responsive Styles */
+            @media (max-width: 1024px) {
+                .carousel-img {
+                    height: 350px; /* Adjust carousel image height for tablets */
                 }
 
-                .program-item {
-                    font-size: 0.9rem; /* Reduce font size for program items on mobile */
-                }
-
-                .modal-body img {
-                    max-height: 70vh; /* Reduce modal image height for mobile */
+                .thumbnail-img {
+                    height: 80px; /* Adjust thumbnail height for tablets */
                 }
 
                 .modal-body {
-                    padding: 15px;
-                }
-
-                .modal-footer {
-                    flex-direction: column;
-                    gap: 10px;
-                }
-
-                .hero-content h1 {
-                    font-size: 1.8rem; /* Adjust hero title size for mobile */
-                }
-
-                .hero-content p {
-                    font-size: 1.1rem; /* Adjust hero subtitle size for mobile */
-                }
-
-                .text-center h2 {
-                    font-size: 1.5rem; /* Adjust price size for mobile */
-                }
-
-                .col-md-4, .col-md-8 {
-                    width: 100%; /* Make columns full-width on mobile */
-                }
-
-                .container h2, h5 {
-                    text-align: center; /* Center-align text for better mobile experience */
-                }
-
-                .container h5 {
-                    font-size: 1.2rem;
-                }
-
-                .modal-dialog {
-                    max-width: 100%;
-                }
-
-                /* Ensure modal form inputs take full width on mobile */
-                .modal-body input, .modal-body textarea {
-                    width: 100%;
-                }
-
-                .thumbnail-container img {
-                    width: 50px;
-                    height: 50px;
+                    padding: 15px; /* Adjust padding for modal body */
                 }
             }
 
-            @media (max-width: 576px) {
-                .carousel-item img {
-                    max-height: 200px; /* Further reduce carousel image height for small mobile devices */
+            @media (max-width: 768px) {
+                .carousel-img {
+                    height: 250px; /* Adjust carousel image height for mobile */
                 }
 
-                .hero-content h1 {
-                    font-size: 1.5rem; /* Further reduce hero title size */
+                .thumbnail-img {
+                    height: 60px; /* Adjust thumbnail height for mobile */
                 }
 
-                .hero-content p {
-                    font-size: 1rem; /* Further reduce hero subtitle size */
+                .modal-body {
+                    padding: 10px; /* Adjust padding for modal body */
                 }
 
-                .modal-body img {
-                    max-height: 60vh; /* Reduce modal image height */
-                }
-
-                /* Reduce size of modal thumbnails */
-                .thumbnail-container img {
-                    width: 40px;
-                    height: 40px;
-                }
-
-                .btn {
-                    width: 100%; /* Make buttons full width */
-                }
-
-                /* Price and inclusion/exclusion sections */
-                .price-details h2 {
-                    font-size: 1.3rem; /* Adjust heading size for mobile */
-                }
-
-                .list-unstyled li {
-                    font-size: 0.9rem; /* Reduce list item font size */
+                .program-item {
+                    margin-bottom: 15px; /* Reduce margin for program items on mobile */
+                    padding-bottom: 8px; /* Reduce padding for program items on mobile */
                 }
             }
         </style>
@@ -152,7 +153,7 @@
         <!-- Hero Section with Background Image and Text -->
         <section class="hero py-5" style="background-image: url('{{ asset('uploads/zajezdy/' ~ zajezd.image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
             <div class="hero-content">
-                <h1 class="display-4">{{ zajezd.nazev }}</h1>
+                <h1 class="display-4 outlined-heading-main">{{ zajezd.nazev }}</h1>
                 <p class="lead" style="text-align: center">{{ zajezd.podnazev|nl2br }}</p>
             </div>
         </section>
@@ -162,17 +163,149 @@
             <div class="container">
                 <div class="row">
                     <!-- Left column: Description -->
-                    <div class="col-md-8">
-                        <div>
-                            {% if zajezd.uvodniNadpis is not null and zajezd.uvodniPopisek is not null %}
-                                <h2>{{ zajezd.uvodniNadpis }}</h2>
-                                <p>{{ zajezd.uvodniPopisek|nl2br }}</p>
-                            {% else %}
-                                <h2>Žádný nadpis k zobrazení.</h2>
-                                <p>Žádný popisek k zobrazení.</p>
-                            {% endif %}
+                    <div class="col-md-8 ">
+                        <div id="myCarousel" class="carousel slide mb-6 position-relative" data-bs-ride="carousel" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                {% if zajezd.carouselImage1 %}
+                                    <div class="carousel-item active">
+                                        <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage1) }}" class="d-block w-100" style="object-fit: cover; min-height: 480px" alt="Slide 1">
+                                    </div>
+                                {% endif %}
+                                {% if zajezd.carouselImage2 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage2) }}" class="d-block w-100" style="object-fit: cover; min-height: 480px " alt="Slide 2">
+                                    </div>
+                                {% endif %}
+                                {% if zajezd.carouselImage3 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage3) }}" class="d-block w-100" style="object-fit: cover; min-height: 480px" alt="Slide 3">
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+
+                            <!-- Move the button inside the carousel and adjust its position -->
+                            <button class="btn btn-lg position-absolute" id="openGalleryModal"
+                                    style="z-index: 10; background-color: #f8f9fa; color: black; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border: 1px solid #f8f9fa;
+                            bottom: -10px; right: -10px;">
+                                Prohlídka galerie
+                            </button>
                         </div>
                     </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="galleryModalLabel">{{ zajezd.nazev }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% if zajezd.carouselImage1 %}
+                                                <div class="carousel-item active">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage1) }}" class="d-block w-100 carousel-img" alt="Slide 1">
+                                                </div>
+                                            {% endif %}
+                                            {% if zajezd.carouselImage2 %}
+                                                <div class="carousel-item">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage2) }}" class="d-block w-100 carousel-img" alt="Slide 2">
+                                                </div>
+                                            {% endif %}
+                                            {% if zajezd.carouselImage3 %}
+                                                <div class="carousel-item">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage3) }}" class="d-block w-100 carousel-img" alt="Slide 3">
+                                                </div>
+                                            {% endif %}
+
+                                            <!-- Additional images from zajezdy_image1 to zajezdy_image10 -->
+                                            {% for i in 1..10 %}
+                                                {% set imageField = 'getZajezdyImage' ~ i %}
+                                                {% if attribute(zajezd, imageField) %}
+                                                    <div class="carousel-item">
+                                                        <img src="{{ asset('uploads/zajezdy/foto/' ~ attribute(zajezd, imageField)) }}" class="d-block w-100 carousel-img" alt="Slide {{ 3 + i }}">
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                        <!-- Carousel controls -->
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Thumbnails Showcase -->
+                                    <div class="mt-4 thumbnail-row">
+                                            {% if zajezd.carouselImage1 %}
+                                                <div class="thumbnail-col">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage1) }}" class="img-thumbnail thumbnail-img" alt="Thumbnail 1" data-bs-target="#galleryCarousel" data-bs-slide-to="0" style="cursor: pointer;">
+                                                </div>
+                                            {% endif %}
+                                            {% if zajezd.carouselImage2 %}
+                                                <div class="thumbnail-col">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage2) }}" class="img-thumbnail thumbnail-img" alt="Thumbnail 2" data-bs-target="#galleryCarousel" data-bs-slide-to="1" style="cursor: pointer;">
+                                                </div>
+                                            {% endif %}
+                                            {% if zajezd.carouselImage3 %}
+                                                <div class="thumbnail-col">
+                                                    <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage3) }}" class="img-thumbnail thumbnail-img" alt="Thumbnail 3" data-bs-target="#galleryCarousel" data-bs-slide-to="2" style="cursor: pointer;">
+                                                </div>
+                                            {% endif %}
+
+                                            <!-- Additional thumbnails for zajezdy_image1 to zajezdy_image10 -->
+                                            {% for i in 1..10 %}
+                                                {% set imageField = 'getZajezdyImage' ~ i %}
+                                                {% if attribute(zajezd, imageField) %}
+                                                    <div class="thumbnail-col">
+                                                        <img src="{{ asset('uploads/zajezdy/foto/' ~ attribute(zajezd, imageField)) }}" class="img-thumbnail thumbnail-img" alt="Thumbnail {{ 3 + i }}" data-bs-target="#galleryCarousel" data-bs-slide-to="{{ 2 + i }}" style="cursor: pointer;">
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Open gallery modal
+                        document.getElementById('openGalleryModal').addEventListener('click', function() {
+                            let galleryModal = new bootstrap.Modal(document.getElementById('galleryModal'));
+                            galleryModal.show();
+                        });
+
+                        // Add click event listener to thumbnails
+                        const thumbnails = document.querySelectorAll('.img-thumbnail');
+                        thumbnails.forEach((thumbnail) => {
+                            thumbnail.addEventListener('click', function() {
+                                const index = this.getAttribute('data-bs-slide-to');
+                                const carousel = bootstrap.Carousel.getInstance(document.getElementById('galleryCarousel'));
+                                carousel.to(index); // Move to the corresponding slide
+                            });
+                        });
+                    </script>
+
 
                     <!-- Right column: Pricing and details -->
                     <div class="col-md-4">
@@ -204,16 +337,19 @@
 
                                     <!-- Hidden additional dates -->
                                     <div id="additional-dates" style="display: none;">
-                                        {% for date in zajezd.datumy|slice(1) %}
+                                        {% for date in zajezd.datumy|slice(1, 5) %}
                                             {% set startDate = date %}
                                             {% set endDate = startDate|date_modify("+" ~ (zajezd.delka - 1) ~ " days") %}
                                             <p style="margin-right: 12px;">
                                                 {{ startDate|date('d.m.Y') }} - {{ endDate|date('d.m.Y') }}
                                             </p>
                                         {% endfor %}
+                                        {% if zajezd.datumy|length > 6 %}
+                                            <a href="#dostupne-terminy" style="font-size: 16px; text-decoration: none; text-align: center">Vybrat jiný termín</a>
+                                        {% endif %}
                                     </div>
                                 {% else %}
-                                    <p>Žádné datumy k zobrazení</p>
+                                    <p>Termín na vyžádání</p>
                                 {% endif %}
                             </div>
 
@@ -223,13 +359,16 @@
                             <!-- Left-aligned section: Length, transport, and food -->
                             <div style="text-align: left;">
                                 <p><strong>POČET DNŮ:</strong> {{ zajezd.delka }} </p>
-                                <p><strong>DOPRAVA:</strong> {{ zajezd.doprava }}</p>
+                                <p><strong>DOPRAVA:</strong> {{ zajezd.doprava }} <br>
+                                {% if zajezd.dopravaPopisek %}
+                                    {{ zajezd.dopravaPopisek | nl2br }}</p>
+                                {% endif %}
                                 <p><strong>STRAVA:</strong> {{ zajezd.strava }}</p>
                             </div>
 
                             <!-- Centered button linking to the "Kontakty" page -->
                             <div class="text-center mt-4">
-                                <a href="#bottom-of-page" class="btn btn-primary" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">Nezávazná poptávka</a>
+                                <a href="#dostupne-terminy" class="btn btn-primary" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">Nezávazná poptávka</a>
                             </div>
                         </div>
                     </div>
@@ -239,44 +378,12 @@
 
         <div class="container mt-4">
             <div class="p-4 position-relative">
-                <a class="btn btn-lg position-absolute bottom-0 end-0 m-3" href="/galerie" style="z-index: 10; background-color: #f8f9fa; color: black; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border: 1px solid #f8f9fa;">Prohlídka galerie</a>
-
-                <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
-                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        {% if zajezd.carouselImage1 %}
-                            <div class="carousel-item active">
-                                <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage1) }}" class="d-block w-100" alt="Slide 1">
-                            </div>
-                        {% endif %}
-                        {% if zajezd.carouselImage2 %}
-                            <div class="carousel-item">
-                                <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage2) }}" class="d-block w-100" alt="Slide 2">
-                            </div>
-                        {% endif %}
-                        {% if zajezd.carouselImage3 %}
-                            <div class="carousel-item">
-                                <img src="{{ asset('uploads/zajezdy/' ~ zajezd.carouselImage3) }}" class="d-block w-100" alt="Slide 3">
-                            </div>
-                        {% endif %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                <div>
+                    <h2>{{ zajezd.uvodniNadpis }}</h2>
+                    <p>{{ zajezd.uvodniPopisek|nl2br }}</p>
                 </div>
             </div>
         </div>
-
-
 
         <!-- Program Section -->
         <section class="program py-5">
@@ -284,8 +391,13 @@
                 <h1 class="text-center" style="margin-bottom: 20px">Program zájezdu</h1><br>
                 {% for programDne in zajezd.programDne %}
                     <div class="program-item">
-                        <h5>Den {{ programDne.cisloDne }}: {{ programDne.nazev }}</h5>
-                        <p>{{ programDne.popisek}}</p>
+                        <h5>
+                            {% if programDne.cisloDne is not null %}
+                                Den {{ programDne.cisloDne }}:
+                            {% endif %}
+                            {{ programDne.nazev }}
+                        </h5>
+                        <p>{{ programDne.popisek|nl2br }}</p>
                     </div>
                 {% else %}
                     <p class="text-center">Žádné položky k zobrazení.</p>
@@ -349,15 +461,17 @@
             </div>
         </section>
 
+        <div id="dostupne-terminy"></div>
+
         <section>
-            <div class="container py-5" >
+            <div class="container py-5">
                 <h1 style="text-align: center; margin-bottom: 20px">Dostupné termíny</h1>
                 <div class="table-responsive" style="background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
                     <table class="table table-hover align-middle">
                         <thead>
                         <tr>
                             <th>Termín</th>
-                            <th>Délka</th>
+                            <th>Délka pobytu</th>
                             <th>Doprava</th>
                             <th>Strava</th>
                             <th>Cena</th>
@@ -366,8 +480,9 @@
                         </thead>
                         <tbody>
                         {% for date in zajezd.datumy %}
-                            {% set startDate = date %}
-                            {% set endDate = startDate|date_modify("+" ~ (zajezd.delka - 1) ~ " days") %}
+                            {% set startDate = date.datum %}
+                            {% set termDelka = date.delka is not null ? date.delka : zajezd.delka %}
+                            {% set endDate = startDate|date_modify("+" ~ (termDelka - 1) ~ " days") %}
 
                             <!-- Mapping days to Czech -->
                             {% set days_in_czech = {
@@ -386,24 +501,30 @@
                                     <span class="text-muted">vybrat tento termín</span>
                                 </td>
                                 <td>
-                                    {{ zajezd.delka }} nocí - {{ days_in_czech[startDate|date('l')] }} - {{ days_in_czech[endDate|date('l')] }}
+                                    {% if termDelka == 1 %}
+                                        {{ termDelka }} den - {{ days_in_czech[startDate|date('l')] }}
+                                    {% elseif termDelka in 2..4 %}
+                                        {{ termDelka - 1 }} noci - {{ days_in_czech[startDate|date('l')] }} - {{ days_in_czech[endDate|date('l')] }}
+                                    {% else %}
+                                        {{ termDelka - 1 }} nocí - {{ days_in_czech[startDate|date('l')] }} - {{ days_in_czech[endDate|date('l')] }}
+                                    {% endif %}
                                 </td>
+
+                                <td>{{ zajezd.doprava }} <i class="fas fa-plane"></i> <!-- Airplane icon --></td>
+                                <td>{{ zajezd.strava }}</td>
                                 <td>
-                                    {{ zajezd.doprava }} <i class="fas fa-plane"></i> <!-- Airplane icon -->
-                                </td>
-                                <td>
-                                    {{ zajezd.strava }}
-                                </td>
-                                <td>
-                                    <strong>od {{ zajezd.formattedCena }} Kč</strong><br>
+                                    <strong>od {{ date.price ? date.price : zajezd.formattedCena }} Kč</strong><br>
                                     <span class="text-muted">za osobu</span>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal">Nezávazná poptávka</a>
+                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal"
+                                       data-date-price="{{ date.price ? date.price : zajezd.formattedCena }}"
+                                       data-date-delka="{{ date.delka ? date.delka : zajezd.delka }}"
+                                       data-date="{{ startDate|date('d.m.Y') }}">Nezávazná poptávka</a>
                                 </td>
                             </tr>
                         {% else %}
-                            <p class="text-center">Žádné termíny k zobrazení.</p>
+                            <p class="text-center">Žádné termíny, pouze na vyžádání.</p>
                         {% endfor %}
                         </tbody>
                     </table>
@@ -412,8 +533,6 @@
         </section>
 
         <!-- Modal Structure -->
-        <div id="bottom-of-page"></div>
-
         <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -426,20 +545,29 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="osoby" class="form-label">Počet osob <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="osoby" name="osoby" placeholder="Zadejte počet osob" value="1" required>
+                                    <input type="number" class="form-control" id="osoby" name="osoby" placeholder="Zadejte počet osob" value="1" min="1" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="cena" class="form-label">Cena za osobu</label>
                                     <input type="text" class="form-control" id="cena" name="cena" value="{{ zajezd.cena }}" readonly>
                                 </div>
                             </div>
+                            <div id="personDetails">
+                                <div class="person-entry mb-3">
+                                    <label for="jmeno_1" class="form-label">Jméno a Příjmení <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="jmeno_1" name="jmeno_1" placeholder="Zadejte své jméno" required>
+                                    <label for="narozeni_1" class="form-label">Datum narození <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="narozeni_1" name="narozeni_1" required>
+                                </div>
+                            </div>
+                            <button type="button" id="addPerson" class="btn btn-primary mb-3">Přidat další osobu</button>
                             <div class="mb-3">
-                                <label for="jmeno" class="form-label">Jméno a Příjmení <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="jmeno" name="jmeno" placeholder="Zadejte své jméno" required>
+                                <label for="bydliste" class="form-label">Adresa trvalého bydliště <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bydliste" name="bydliste" placeholder="Zadejte svoji adresu trvalého bydliště" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bydliste" class="form-label">Bydliště <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="bydliste" name="bydliste" placeholder="Zadejte své bydliště" required>
+                                <label for="statni_prislusnost" class="form-label">Státní příslušnost <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="statni_prislusnost" name="statni_prislusnost" placeholder="Zadejte svoji státní příslušnost" required>
                             </div>
                             <div class="mb-3">
                                 <label for="tel" class="form-label">Telefon <span class="text-danger">*</span></label>
@@ -448,10 +576,6 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Zadejte svůj e-mail" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="narozeni" class="form-label">Datum narození <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="narozeni" name="narozeni" required>
                             </div>
                             <div class="mb-3">
                                 <label for="poznamka" class="form-label">Poznámka</label>
@@ -463,13 +587,37 @@
                                     Chci cestovní pojištění
                                 </label>
                             </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Mám zájem o zasílání newsletteru
+                                </label>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-                                <button type="submit" class="btn btn-primary" id="submitButton">Odeslat poptávku</button>
+                                <button type="submit" class="btn btn-primary">Odeslat objednávku</button>
                             </div>
                         </form>
 
                         <script>
+                            // Track the current number of persons
+                            let personCount = 1;
+
+                            document.getElementById('addPerson').addEventListener('click', function() {
+                                personCount++; // Increment the person count
+                                const personEntry = document.createElement('div');
+                                personEntry.className = 'person-entry mb-3';
+                                personEntry.innerHTML = `
+                                    <label for="jmeno_${personCount}" class="form-label">Jméno a Příjmení <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="jmeno_${personCount}" name="jmeno_${personCount}" placeholder="Zadejte své jméno" required>
+                                    <label for="narozeni_${personCount}" class="form-label">Datum narození <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="narozeni_${personCount}" name="narozeni_${personCount}" required>
+                                `;
+                                document.getElementById('personDetails').appendChild(personEntry);
+                                // Update the hidden number of persons field
+                                document.getElementById('osoby').value = personCount; // Update the "Počet osob" input
+                            });
+
                             document.getElementById('orderForm').addEventListener('submit', function(event) {
                                 // Prevent multiple submissions
                                 const submitButton = document.getElementById('submitButton');
@@ -487,10 +635,12 @@
         </div>
 
         <section>
-            <div class="continer" style="text-align: center; margin-bottom: 20px; color: #6c757d;">
+            <h1 style="text-align: center; margin-bottom: 20px">Poznámky</h1>
+            <div class="container py-5" style="color: #6c757d; text-align: justify; width: 80%; margin-left: auto; margin-right: auto;">
                 <p>{{ zajezd.poznamky|nl2br }}</p>
             </div>
         </section>
+
 
         <!-- JavaScript for toggling additional dates -->
         <script>
@@ -504,6 +654,16 @@
                     additionalDates.style.display = 'none';
                     this.textContent = '+';  // Change back to + when collapsed
                 }
+            });
+
+                const orderModal = document.getElementById('orderModal');
+                orderModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const datePrice = button.getAttribute('data-date-price'); // Extract price from data attribute
+
+                // Update the modal's input fields
+                const priceInput = orderModal.querySelector('#cena');
+                priceInput.value = datePrice; // Set the price in the modal's input field
             });
         </script>
     {% endblock %}

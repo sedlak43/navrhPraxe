@@ -25,13 +25,13 @@ class PhotoCrudController extends AbstractCrudController
         return [
             TextField::new('popisek', 'Popisek')
                 ->setRequired(false),
-            ImageField::new('image', 'Image')
+            ImageField::new('image', 'Obrázek')
                 ->setUploadDir('public/uploads/photos')
                 ->setBasePath('uploads/photos')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
             // Allow selecting existing tags and adding new ones
-            AssociationField::new('tags', 'Tags')
+            AssociationField::new('tags', 'Tag')
                 ->setFormTypeOptions([
                     'by_reference' => false,
                     'multiple' => true, // Allows multiple tags to be selected

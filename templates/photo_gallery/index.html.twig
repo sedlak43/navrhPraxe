@@ -11,6 +11,17 @@
             padding-top: 76px;
         }
 
+        li {
+            list-style-position: outside; /* Ensures the bullet stays outside */
+            margin-left: 1em; /* Adds space between the bullet and the text */
+            text-align: left;
+        }
+
+        ul {
+            padding-left: 20px; /* Adjusts the overall padding of the list */
+            list-style-type: disc; /* Ensure the list uses default bullet points */
+        }
+
         /* Masonry-style gallery */
         .gallery-container {
             column-count: 4;
@@ -37,155 +48,114 @@
             transform: scale(1.05);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-            .gallery-container {
-                column-count: 3;
-            }
+        /* Set fixed size for carousel images */
+        .carousel-img {
+            width: 100%;
+            height: 400px; /* You can adjust the height as needed */
+            object-fit: cover; /* Ensures the image covers the area without distortion */
         }
 
-        @media (max-width: 768px) {
-            .gallery-container {
-                column-count: 2;
-                padding: 0.5rem;
-            }
-
-            .gallery-item {
-                margin-bottom: 10px;
-            }
+        /* Set fixed size for thumbnail images */
+        .thumbnail-img {
+            width: 100%;
+            height: 100px; /* Adjust the height as needed for thumbnails */
+            object-fit: cover; /* Ensures the thumbnail covers the area without distortion */
+            border: none; /* Remove borders */
+            margin: 0; /* Ensure no margin */
         }
 
-        @media (max-width: 576px) {
-            .gallery-container {
-                column-count: 1;
-            }
-
-            .modal-dialog {
-                max-width: 100%;
-            }
+        .carousel-item img {
+            width: 100%;
+            max-height: 480px; /* Adjust height as needed */
+            object-fit: contain; /* Change from cover to contain */
+            object-position: center; /* Center the image */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Modal adjustments */
-        .modal-dialog {
-            max-width: 90%;
-        }
-
-        .modal-body {
-            position: relative;
-            padding: 0;
-        }
-
-        .modal-body img {
-            max-width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Customizing the carousel controls */
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
-            background-color: black;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            background-size: 100%, 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+            border-radius: 50%; /* Optional: round buttons */
         }
 
-        .carousel-control-prev,
-        .carousel-control-next {
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        /* Exit button */
-        .modal-header {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1051;
-        }
-
-        .modal-header .btn-close {
-            font-size: 1.5rem;
-            color: #000;
-            background: transparent;
-            border: none;
+        /* Flex styling for thumbnails row */
+        .thumbnail-row {
             display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            overflow-x: auto; /* Allow horizontal scrolling if needed */
+        }
+
+        .thumbnail-col {
+            flex: 0 0 auto; /* Prevent shrinking */
+            margin-right: 5px; /* Spacing between thumbnails */
+        }
+
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            color: white;
+            background-size: cover; /* Cover the entire container with the background image */
+            background-position: center;
+            padding: 5rem 1rem; /* Padding around the hero content */
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
-            outline: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
         }
 
-        .modal-header .btn-close:focus {
-            outline: none;
-            box-shadow: none;
+        /* Centering hero content */
+        .hero-content {
+            text-align: center; /* Center the entire content horizontally */
+            margin-bottom: 2rem; /* Space below the hero text */
+            color: black;
         }
 
-        .modal-header .btn-close .close-icon {
-            font-size: 20px;
+        .hero-content h1 {
+            text-align: center; /* Ensure the h1 stays centered */
         }
 
-        /* Thumbnails */
-        .thumbnail-container {
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-            gap: 10px;
-            overflow-x: auto;
+        .hero-content p {
+            text-align: left; /* Keep paragraph text left-aligned */
         }
 
-        .thumbnail-container img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid transparent;
+        .hero-content .lead {
+            text-align: left; /* Align the paragraph and ul text to the left */
         }
 
-        .thumbnail-container img.active {
-            border-color: black;
+        .hero-content ul {
+            text-align: left; /* Ensure the ul is aligned left */
+            padding-left: 20px; /* Optional: Adjust left padding for list */
         }
 
-        /* Additional adjustments for mobile */
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .gallery-container {
+                column-count: 3; /* 3 columns for tablets */
+            }
+        }
+
         @media (max-width: 768px) {
-            .carousel-control-prev-icon, .carousel-control-next-icon {
-                width: 40px;
-                height: 40px;
+            .gallery-container {
+                column-count: 2; /* 2 columns for mobile */
             }
 
-            .modal-body img {
-                max-height: 70vh;
+            .carousel-img {
+                height: 300px; /* Adjust carousel image height for mobile */
             }
 
-            .thumbnail-container img {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .modal-dialog {
-                max-width: 100%;
-            }
-
-            .modal-body img {
-                max-height: 60vh;
-            }
-
-            .thumbnail-container img {
-                width: 50px;
-                height: 50px;
+            .thumbnail-img {
+                height: 80px; /* Adjust thumbnail height for mobile */
             }
         }
     </style>
 {% endblock %}
 
 {% block main %}
-    <section class="hero text-center py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
+    <section class="hero py-5" style="background-image: url('{{ asset('images/defaultE.png') }}'); background-size: cover; background-position: center;">
         <div class="hero-content">
-            <h1 class="display-4">Fotogalerie</h1>
+            <h1 class="display-4 outlined-heading-main">Fotogalerie</h1>
         </div>
     </section>
 
@@ -197,8 +167,10 @@
                     <div class="mb-3" style="margin-top: 20px;">
                         <select id="tagFilter" name="tag" class="form-select" onchange="this.form.submit()">
                             <option value="">Všechny</option>
-                            {% for tag in tags %}
-                                <option value="{{ tag.id }}" {% if selectedTag == tag.id %}selected{% endif %}>{{ tag.name }}</option>
+                            {% for tag in tags|sort((a, b) => a.name <=> b.name) %}
+                                <option value="{{ tag.id }}" {% if selectedTag == tag.id %}selected{% endif %}>
+                                    {{ tag.name }}
+                                </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -209,34 +181,41 @@
             <div class="col-md-9">
                 <div class="gallery-container">
                     {% for photo in photos %}
-                        <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-bs-slide-to="{{ loop.index0 }}">
+                        <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-bs-slide-to="{{ loop.index0 }}" data-tag="{{ photo.tags|map(tag => tag.name)|join(', ') }}">
                             <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo">
                         </div>
                     {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Modal with Carousel -->
+    <!-- Modal -->
     <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <!-- Close Button (Icon) -->
                 <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times close-icon"></i>
-                    </button>
+                    <h5 class="modal-title" id="galleryModalLabel">
+                        {% if selectedTag %}
+                            {{ tags|filter(tag => tag.id == selectedTag)|first.name }}
+                        {% else %}
+                            Galerie
+                        {% endif %}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             {% for photo in photos %}
                                 <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                    <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Photo {{ loop.index }}" style="padding-top: 20px">
+                                    <img src="{{ asset('uploads/photos/' ~ photo.image) }}" class="d-block w-100 carousel-img" alt="Photo {{ loop.index }}">
                                 </div>
                             {% endfor %}
                         </div>
+
+                        <!-- Carousel controls -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -247,10 +226,12 @@
                         </button>
                     </div>
 
-                    <!-- Thumbnails -->
-                    <div class="thumbnail-container mt-3">
+                    <!-- Thumbnails Showcase -->
+                    <div class="mt-4 thumbnail-row">
                         {% for photo in photos %}
-                            <img src="{{ asset('uploads/photos/' ~ photo.image) }}" alt="Thumbnail {{ loop.index }}" class="{% if loop.first %}active{% endif %}" data-bs-target="#galleryCarousel" data-bs-slide-to="{{ loop.index0 }}">
+                            <div class="thumbnail-col">
+                                <img src="{{ asset('uploads/photos/' ~ photo.image) }}" class="img-thumbnail thumbnail-img" alt="Thumbnail {{ loop.index }}" data-bs-target="#galleryCarousel" data-bs-slide-to="{{ loop.index0 }}" style="cursor: pointer;">
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -259,31 +240,29 @@
     </div>
 
     <script>
-        // Event listener for when a gallery item is clicked to open the modal
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                const carousel = document.querySelector('#galleryCarousel');
-                const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carousel);
-                carouselInstance.to(index);
+        // Select all gallery items
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.addEventListener('click', function() {
+                // Update the title based on the selected tag or default to 'Galerie'
+                let tagName = this.getAttribute('data-tag') || ''; // Get the tag name from a data attribute if available
+                let title = tagName ? tagName : 'Galerie'; // Fallback title
+                document.getElementById('galleryModalLabel').textContent = title; // Update modal title
+
+                // Move carousel to the clicked index
+                const carousel = bootstrap.Carousel.getInstance(document.getElementById('galleryCarousel'));
+                carousel.to(index); // Move to the corresponding slide
             });
         });
 
-        // Update active thumbnail based on carousel slide
-        const thumbnails = document.querySelectorAll('.thumbnail-container img');
-        const carouselElement = document.querySelector('#galleryCarousel');
-        const carouselInstance = new bootstrap.Carousel(carouselElement);
-
-        carouselElement.addEventListener('slide.bs.carousel', function (event) {
-            thumbnails.forEach(thumb => thumb.classList.remove('active'));
-            thumbnails[event.to].classList.add('active');
-        });
-
-        // Allow clicking on thumbnails to navigate to the respective slide
-        thumbnails.forEach((thumb, index) => {
-            thumb.addEventListener('click', () => {
-                carouselInstance.to(index);
+        // Add click event listener to thumbnails
+        const thumbnails = document.querySelectorAll('.img-thumbnail');
+        thumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener('click', function() {
+                const index = this.getAttribute('data-bs-slide-to');
+                const carousel = bootstrap.Carousel.getInstance(document.getElementById('galleryCarousel'));
+                carousel.to(index); // Move to the corresponding slide
             });
         });
     </script>
+
 {% endblock %}

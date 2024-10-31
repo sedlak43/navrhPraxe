@@ -22,12 +22,40 @@ class Datumy
     )]
     private ?\DateTimeInterface $datum = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $delka = null;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    private ?float $price = null;
+
     #[ORM\ManyToOne(targetEntity: Zajezdy::class, inversedBy: 'datumy')]
     private ?Zajezdy $zajezd = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDelka(): ?int
+    {
+        return $this->delka;
+    }
+
+    public function setDelka(?int $delka): static
+    {
+        $this->delka = $delka;
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): static
+    {
+        $this->price = $price;
+        return $this;
     }
 
     public function getDatum(): ?\DateTimeInterface

@@ -19,9 +19,11 @@ class ProgramDneType extends AbstractType
         $builder
             ->add('cisloDne', IntegerType::class, [
                 'label' => 'Cislo Dne',
+                'required' => false,
             ])
             ->add('nazev', TextType::class, [
                 'label' => 'Nazev',
+                'required' => false,
             ])
             ->add('popisek', TextareaType::class, [
                 'label' => 'Popisek',

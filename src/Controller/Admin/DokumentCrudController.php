@@ -21,9 +21,9 @@ class DokumentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('title', 'Title'),
+            TextField::new('title', 'Název'),
             FormField::addPanel('Upload PDF'),
-            TextField::new('file', 'Upload PDF')
+            TextField::new('file', 'Nahrajte PDF')
                 ->setFormType(FileType::class)
                 ->setFormTypeOptions([
                     'required' => false,

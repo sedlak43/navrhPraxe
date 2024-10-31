@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Domovskastranka;
+use App\Entity\VystaveneZajezdy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Domovskastranka>
+ * @extends ServiceEntityRepository<VystaveneZajezdy>
  */
-class DomovskastrankaRepository extends ServiceEntityRepository
+class VystaveneZajezdyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Domovskastranka::class);
+        parent::__construct($registry, VystaveneZajezdy::class);
     }
 
 //    /**
-//     * @return Domovskastranka[] Returns an array of Domovskastranka objects
+//     * @return VystaveneZajezdy[] Returns an array of VystaveneZajezdy objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class DomovskastrankaRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Domovskastranka
+//    public function findOneBySomeField($value): ?VystaveneZajezdy
 //    {
 //        return $this->createQueryBuilder('d')
 //            ->andWhere('d.exampleField = :val')
