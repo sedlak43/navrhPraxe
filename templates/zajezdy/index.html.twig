@@ -40,7 +40,7 @@
         /* Ensure form controls have a fixed width */
         .form-group select,
         .form-group input {
-            width: 220px; /* Fixed width for all controls */
+            width: 180px; /* Fixed width for all controls */
         }
 
         h4{
@@ -251,7 +251,7 @@
 
                 <!-- Destinace -->
                 <div class="form-group">
-                    <select id="destinace" name="destinace" class="form-select" onchange="this.form.submit()">
+                    <label for="destinace"></label><select id="destinace" name="destinace" class="form-select" onchange="this.form.submit()">
                         <option value="" {% if selected_destinace is empty %}selected{% endif %}>Destinace</option>
                         {% for destinace in destinaces|sort %}
                             <option value="{{ destinace }}" {% if selected_destinace == destinace %}selected{% endif %}>
@@ -263,7 +263,7 @@
 
                 <!-- Doprava -->
                 <div class="form-group">
-                    <select id="doprava" name="doprava" class="form-select" onchange="this.form.submit()">
+                    <label for="doprava"></label><select id="doprava" name="doprava" class="form-select" onchange="this.form.submit()">
                         <option value="" {% if selected_doprava is empty %}selected{% endif %}>Doprava</option>
                         {% for doprava in dopravas|sort %}
                             <option value="{{ doprava }}" {% if selected_doprava == doprava %}selected{% endif %}>
@@ -275,13 +275,22 @@
 
                 <!-- Typy -->
                 <div class="form-group">
-                    <select id="typ" name="typ" class="form-select" onchange="this.form.submit()">
+                    <label for="typ"></label><select id="typ" name="typ" class="form-select" onchange="this.form.submit()">
                         <option value="" {% if selected_typ is empty %}selected{% endif %}>Typy</option>
                         {% for type in types|sort %}
                             <option value="{{ type }}" {% if selected_typ == type %}selected{% endif %}>
                                 {{ type }}
                             </option>
                         {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Price Sorting -->
+                <div class="form-group">
+                    <label for="cena"></label><select id="cena" name="cena" class="form-select" onchange="this.form.submit()">
+                        <option value="" {% if selected_cena is empty %}selected{% endif %}>Cena</option>
+                        <option value="ASC" {% if selected_cena == 'ASC' %}selected{% endif %}>Nejlevnější</option>
+                        <option value="DESC" {% if selected_cena == 'DESC' %}selected{% endif %}>Nejdražší</option>
                     </select>
                 </div>
 
@@ -301,6 +310,7 @@
                     <div class="container">
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             {% for zajezd in zajezdy %}
+                                {% if zajezd.typ == 'Pobyt' or zajezd.typ == 'Poznávací zájezd' %}
                                 <div class="col-md-4">
                                     <div class="card shadow-sm" onclick="window.location.href='{{ path('zajezd_show', {nazev: zajezd.nazev | replace({' ': '-'}) }) }}'">
                                         <img src="{{ asset('uploads/zajezdy/carousel/' ~ zajezd.carouselImage2) }}" class="card-img-top" alt="Travel Image">
@@ -404,6 +414,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>

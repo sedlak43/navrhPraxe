@@ -64,14 +64,16 @@ class ZajezdyController extends AbstractController
         $destinace = $request->query->get('destinace');
         $doprava = $request->query->get('doprava');
         $typ = $request->query->get('typ');
-        $date = $request->query->get('date');
+        $date = $request->query->get('date'); // Ensure this is a string
+        $cena = $request->query->get('cena');
 
         $selected_destinace = $destinace;
         $selected_doprava = $doprava;
         $selected_typ = $typ;
         $selected_date = $date;
+        $selected_cena = $cena;
 
-        // Fetch unique destinaces, dopravas and typs dynamically
+        // Fetch unique destinaces, dopravas, and typs dynamically
         $destinaces = $this->zajezdyRepository->findDistinctDestinaces();
         $dopravas = $this->zajezdyRepository->findDistinctDopravas();
         $types = $this->zajezdyRepository->findDistinctTypes();
@@ -87,8 +89,9 @@ class ZajezdyController extends AbstractController
             $criteria['typ'] = $typ;
         }
 
-        // Fetch zajezdy sorted by the 'order' field
-        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($criteria, $date, ['zajezd_order' => 'ASC']);
+        // Fetch zajezdy with sorting by price if selected
+        // Ensure you are passing the correct arguments here
+        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($date, $criteria, $cena); // date is a string, criteria is an array
 
         return $this->render('zajezdy/index.html.twig', [
             'zajezdy' => $zajezdy,
@@ -98,9 +101,12 @@ class ZajezdyController extends AbstractController
             'selected_date' => $selected_date,
             'destinaces' => $destinaces,
             'dopravas' => $dopravas,
-            'types' => $types, // Pass the dynamically fetched types to the template
+            'types' => $types,
+            'selected_cena' => $selected_cena
         ]);
     }
+
+
 
 
     /**

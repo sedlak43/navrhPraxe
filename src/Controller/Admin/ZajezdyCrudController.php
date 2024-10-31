@@ -176,6 +176,7 @@ class ZajezdyCrudController extends AbstractCrudController
             ChoiceField::new('typ')->setChoices([
                 'Poznávací zájezd' => 'Poznávací zájezd',
                 'Pobyt' => 'Pobyt',
+                'Terénní praxe' => 'Terénní praxe',
             ]),
 
             TextField::new('destinace', label:'Destinace'),

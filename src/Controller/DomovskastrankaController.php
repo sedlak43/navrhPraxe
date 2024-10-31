@@ -40,11 +40,14 @@ class DomovskastrankaController extends AbstractController
         $doprava = $request->query->get('doprava');
         $typ = $request->query->get('typ');
         $date = $request->query->get('date');
+        $cena = $request->query->get('cena');
 
         $selected_destinace = $destinace;
         $selected_doprava = $doprava;
         $selected_typ = $typ;
         $selected_date = $date;
+
+        $selected_cena = $cena;
 
         // Fetch unique destinations, transport, and trip types
         $destinaces = $this->zajezdyRepository->findDistinctDestinaces();
@@ -62,7 +65,7 @@ class DomovskastrankaController extends AbstractController
             $criteria['typ'] = $typ;
         }
 
-        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($criteria, $date);
+        $zajezdy = $this->zajezdyRepository->findByCriteriaAndDate($date, $criteria, $cena);
 
         // Fetch all records of VystaveneZajezdy
         $vystaveneZajezdy = $this->vystaveneZajezdyRepository->findBy([], null, 3); // Limit to 3 records
@@ -90,6 +93,7 @@ class DomovskastrankaController extends AbstractController
             'vystaveneZajezdy' => $vystaveneZajezdy,
             'aktuality' => $aktuality,
             'carouselHomepage' => $carouselHomepage,
+            'selected_cena' => $selected_cena
         ]);
     }
 }
